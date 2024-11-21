@@ -10,6 +10,11 @@ public class PlayerMovement : MonoBehaviour
     Vector3 playerVelocity;
     Vector3 playerPosPrev;
 
+    [SerializeField] float maxAccelerationGround = 1f;
+    [SerializeField] float maxAccelerationWater = 0.5f;
+    [SerializeField] float maxSpeedGround = 1f;
+    [SerializeField] float maxSpeedWater = 0.5f;
+
     [SerializeField] float playerSpeed = 1f;
     [SerializeField] float maxAcceleration = 1f;
     [SerializeField] float acceleration = 1f;
@@ -20,8 +25,8 @@ public class PlayerMovement : MonoBehaviour
     //[SerializeField] float rotateSpeed = 1f;
     [SerializeField] Transform target;
     [SerializeField] Camera playerCam;
-    [SerializeField] Tilemap tilemap;
-    [SerializeField] Tilemap tilemapUnbreakable;
+    [SerializeField] Tilemap walls;
+    [SerializeField] Tilemap ground;
     [SerializeField] RuleTile tile;
     [SerializeField] Grid grid;
     [SerializeField] Inventory inventory;
@@ -41,7 +46,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] AudioSource playerHurtAudio;
     Animator anim;
 
+    [SerializeField] GameObject craftingUI;
+
     //[SerializeField] Renderer astronautModel;
+
+    // TODO: this script needs to be modularised, it's becoming difficult to maintain
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FindGroundTile();
+
         playerPosPrev = transform.position;
 
         controller.Move(playerVelocity * playerSpeed * Time.deltaTime);
@@ -123,14 +134,32 @@ public class PlayerMovement : MonoBehaviour
         inputValue = new Vector3(moveValue.x, 0, moveValue.y);
     }
 
+    void FindGroundTile()
+    {
+        Vector3Int tilePos = grid.WorldToCell(new Vector3(transform.position.x, 0, transform.position.z));
+        if (ground.GetTile(tilePos) == null)
+        {
+            return;
+        }
+
+        print(ground.GetTile(tilePos).name);
+        switch (ground.GetTile(tilePos).name)
+        {
+            case "BlueBiomeTerrain": maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
+            case "RedBiomeTerrain": maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
+            case "Water": maxAcceleration = maxAccelerationWater; playerSpeed = maxSpeedWater; break;
+            default: break;
+        }
+    }
+
     void OnInteract() {
         //print("hi");
         Vector3Int tilePos = grid.WorldToCell(new Vector3(target.position.x, 0, target.position.z));
-        if (tilemapUnbreakable.GetTile(tilePos) == null) {
+        if (walls.GetTile(tilePos) == null) {
             return;
         }
         //print(tilemapUnbreakable.GetTile(tilePos).name);
-        switch (tilemapUnbreakable.GetTile(tilePos).name) {
+        switch (walls.GetTile(tilePos).name) {
             case "CaveEntrance": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(5); break;
             case "CaveExit": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(1); break;
             case "Spaceship": {
@@ -139,6 +168,11 @@ public class PlayerMovement : MonoBehaviour
                     } else {
                         print("not enough materials"); 
                     }
+                    break;
+                }
+            case "CraftingStation":
+                {
+                    craftingUI.SetActive(true);
                     break;
                 }
             default: break;
@@ -182,8 +216,10 @@ public class PlayerMovement : MonoBehaviour
                     break;
                 }
             case "EnemyHitbox": {
+                    // TODO: move to separate script
                     if (invincibleTimer <= 0 && other.TryGetComponent<EnemyHitbox>(out EnemyHitbox hitbox)) {
                         SetInvinciblityTime();
+                        playerStats.ScreenFlash();
                         playerStats.SetOxygen(playerStats.GetOxygen() - hitbox.GetDamage());
                         playerHurtAudio.Play();
                     }

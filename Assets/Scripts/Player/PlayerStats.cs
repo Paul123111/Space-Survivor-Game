@@ -11,6 +11,10 @@ public class PlayerStats : MonoBehaviour
     Image oxygenBar;
     Image powerBar;
 
+    Image screenFlash;
+    float alpha = 0;
+    bool screenFlashBool = false;
+
     float oxygen;
     float power;
 
@@ -21,6 +25,7 @@ public class PlayerStats : MonoBehaviour
     {
         oxygenBar = GameObject.Find("OxygenBar").GetComponent<Image>();
         powerBar = GameObject.Find("PowerBar").GetComponent<Image>();
+        screenFlash = GameObject.Find("ScreenFlash").GetComponent<Image>();
 
         oxygen = maxOxygen;
         power = maxPower;
@@ -33,6 +38,7 @@ public class PlayerStats : MonoBehaviour
     {
         BarLength();
         DepleteStats();
+        UpdateScreenFlash();
     }
 
     void BarLength() {
@@ -76,5 +82,23 @@ public class PlayerStats : MonoBehaviour
         this.power = power;
         if (power > maxPower)
             this.power = maxPower;
+    }
+
+    public void ScreenFlash() {
+        alpha = 0.5f;
+        screenFlashBool = true;
+    }
+
+    void UpdateScreenFlash() {
+        if (screenFlashBool) {
+            alpha -= Time.deltaTime;
+
+            if (alpha <= 0) {
+                alpha = 0;
+                screenFlashBool = false;
+            }
+
+            screenFlash.color = new Color(1, 0, 0, alpha);
+        }
     }
 }

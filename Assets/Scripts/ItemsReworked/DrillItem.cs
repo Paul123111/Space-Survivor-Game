@@ -43,7 +43,7 @@ public class DrillItem : ItemObject {
 
         blockBreakSound.Play();
         switch (tilemap.GetTile(tilePos).name) {
-            case "BlueBiomeTileTest": ItemManager.CreateItemPickups(1, new Vector3(target.position.x, 0, target.position.z)); break;
+            case "BlueBiomeWall": ItemManager.CreateItemPickups(1, new Vector3(target.position.x, 0, target.position.z)); break;
             case "TreeTile": for (int i = 0; i < 6; i++) { ItemManager.CreateItemPickups(2, new Vector3(target.position.x, 0, target.position.z)); } break;
             case "WoodTile": ItemManager.CreateItemPickups(2, new Vector3(target.position.x, 0, target.position.z)); break;
             case "FlowerTile": ItemManager.CreateItemPickups(3, new Vector3(target.position.x, 0, target.position.z)); break;

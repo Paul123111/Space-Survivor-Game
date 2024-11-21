@@ -13,11 +13,23 @@ public class FollowPlayer : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(player.position);
+
+        StartCoroutine(CalculateFollow());
     }
 
     // Update is called once per frame
-    void Update()
+    //void Update()
+    //{
+    //    agent.CalculatePath(player.position, path);
+    //}
+
+    IEnumerator CalculateFollow()
     {
-        agent.destination = player.position;
+        for(;;)
+        {
+            agent.SetDestination(player.position);
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 }

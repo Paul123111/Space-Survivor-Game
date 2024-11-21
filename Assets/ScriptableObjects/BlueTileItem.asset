@@ -17,6 +17,6 @@ MonoBehaviour:
   itemName: Blue Tile
   cooldown: 0.1
   consumable: 1
-  tile: {fileID: 11400000, guid: b60226139b1795541ab4216253e110c1, type: 2}
+  tile: {fileID: 11400000, guid: c6a083dd1e721d74daa17c005bde71fc, type: 2}
   tileToBePlaced: {fileID: 11400000, guid: 3e663f5d3a731e644b1a075bb31559ff, type: 2}
   tileToBePlacedValid: {fileID: 11400000, guid: d023c4cb30c0cde48912033ce90561c7, type: 2}
