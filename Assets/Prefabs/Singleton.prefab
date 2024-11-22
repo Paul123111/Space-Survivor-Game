@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6428335528472674825}
   - component: {fileID: 4882731558782493401}
   - component: {fileID: 4255549869593540812}
+  - component: {fileID: 2942758239471727072}
   m_Layer: 0
   m_Name: Singleton
   m_TagString: Singleton
@@ -58,3 +59,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab28b965f617f5742b0f7cac183b40b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  dayNightCycle: {fileID: 2942758239471727072}
+--- !u!114 &2942758239471727072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490429969789003420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639bf76d44c241b4fa2b3b75ea876e3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayLight: {fileID: 0}
+  hasDayLight: 1
+  astronautLight: {fileID: 0}
+  dayTimeLengthSeconds: 60
+  nightTimeLengthSeconds: 120
+  dayCountText: {fileID: 0}
+  timerText: {fileID: 0}

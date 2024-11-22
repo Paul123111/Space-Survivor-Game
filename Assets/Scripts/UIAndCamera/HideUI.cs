@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
-public class NewBehaviourScript : MonoBehaviour
+public class HideUI : MonoBehaviour
 {
     GameObject scoreBoard;
     bool hidden = false;

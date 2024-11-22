@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] GameObject craftingUI;
 
+    [SerializeField] PauseGame pauseGame;
+
     //[SerializeField] Renderer astronautModel;
 
     // TODO: this script needs to be modularised, it's becoming difficult to maintain
@@ -68,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
         playerPosPrev = transform.position;
 
         controller.Move(playerVelocity * playerSpeed * Time.deltaTime);
-        Quaternion toRotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, 0, target.position.z));
 
         if (transform.position.y != 0.375f) {
             transform.position = new Vector3(transform.position.x, 0.375f, transform.position.z);
@@ -78,8 +79,8 @@ public class PlayerMovement : MonoBehaviour
         //if (playerVelocity != new Vector3(0, 0, 0)) {
         //    transform.rotation = Quaternion.Lerp(toRotation, Quaternion.LookRotation(playerVelocity * playerSpeed), Time.fixedDeltaTime * rotateSpeed);
         //} else {
-        transform.rotation = toRotation;
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+        //transform.rotation = toRotation;
+        //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         //tilePlaceable = true;
         //}
 
@@ -97,6 +98,10 @@ public class PlayerMovement : MonoBehaviour
         if (playerVelocity.magnitude > playerSpeed) {
             playerVelocity = playerVelocity.normalized * playerSpeed;
         }
+
+        Quaternion toRotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, 0, target.position.z));
+        transform.rotation = toRotation;
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 
         Acceleration();
         IsWalkingBackwards();
@@ -142,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        print(ground.GetTile(tilePos).name);
+        //print(ground.GetTile(tilePos).name);
         switch (ground.GetTile(tilePos).name)
         {
             case "BlueBiomeTerrain": maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
@@ -154,11 +159,13 @@ public class PlayerMovement : MonoBehaviour
 
     void OnInteract() {
         //print("hi");
+        if (pauseGame.GetPaused()) return;
+
         Vector3Int tilePos = grid.WorldToCell(new Vector3(target.position.x, 0, target.position.z));
         if (walls.GetTile(tilePos) == null) {
             return;
         }
-        //print(tilemapUnbreakable.GetTile(tilePos).name);
+        //print(walls.GetTile(tilePos).name);
         switch (walls.GetTile(tilePos).name) {
             case "CaveEntrance": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(5); break;
             case "CaveExit": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(1); break;
@@ -172,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             case "CraftingStation":
                 {
+                    pauseGame.TogglePause();
                     craftingUI.SetActive(true);
                     break;
                 }

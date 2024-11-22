@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: CraftingStation
+  m_Name: Spaceship
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 0}
-  m_DefaultGameObject: {fileID: 1831506737603934876, guid: d4b8b10decb11374db63f27a6573b987, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 07e4866b4e6ad5140a6c7820da48e9d7, type: 3}
+  m_DefaultGameObject: {fileID: 5666351912189831757, guid: 8d2a5f5620ba12f42996dfdce8c00b02, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []

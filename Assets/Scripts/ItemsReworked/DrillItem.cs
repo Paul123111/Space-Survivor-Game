@@ -41,17 +41,17 @@ public class DrillItem : ItemObject {
             return false;
         //print(tilemap.GetTile(tilePos).name);
 
-        blockBreakSound.Play();
         switch (tilemap.GetTile(tilePos).name) {
             case "BlueBiomeWall": ItemManager.CreateItemPickups(1, new Vector3(target.position.x, 0, target.position.z)); break;
             case "TreeTile": for (int i = 0; i < 6; i++) { ItemManager.CreateItemPickups(2, new Vector3(target.position.x, 0, target.position.z)); } break;
             case "WoodTile": ItemManager.CreateItemPickups(2, new Vector3(target.position.x, 0, target.position.z)); break;
             case "FlowerTile": ItemManager.CreateItemPickups(3, new Vector3(target.position.x, 0, target.position.z)); break;
             case "BoulderTile": ItemManager.CreateItemPickups(4, new Vector3(target.position.x, 0, target.position.z)); ItemManager.CreateItemPickups(5, new Vector3(target.position.x, 0, target.position.z)); break;
-            default: break;
+            default: return false;
         }
         tilemap.SetTile(tilePos, null);
         singleton.SetScore(singleton.GetScore()+1);
+        blockBreakSound.Play();
         return true;
     }
 

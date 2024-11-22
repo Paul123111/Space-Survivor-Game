@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: WoodTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 0}
+  m_DefaultSprite: {fileID: 21300000, guid: bfeda8f843d95704da28205ab83ed4f4, type: 3}
   m_DefaultGameObject: {fileID: 1831506737603934876, guid: 5e69652745eef9a43a8b9f2e7f19e09c, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []

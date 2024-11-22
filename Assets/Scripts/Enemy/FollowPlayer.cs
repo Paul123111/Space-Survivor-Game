@@ -13,7 +13,7 @@ public class FollowPlayer : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(player.position);
+        //agent.SetDestination(player.position);
 
         StartCoroutine(CalculateFollow());
     }
@@ -29,7 +29,7 @@ public class FollowPlayer : MonoBehaviour
         for(;;)
         {
             agent.SetDestination(player.position);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

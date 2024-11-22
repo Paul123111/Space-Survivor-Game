@@ -10,14 +10,18 @@ public class CameraMouse : MonoBehaviour {
     [SerializeField] float speed = 3f;
     Quaternion fromRotation;
     //Vector2 cameraPos;
+    PauseGame pauseGame;
 
     // Start is called before the first frame update
     void Start() {
         fromRotation = Quaternion.Euler(new Vector3(75f, 0f, 0f));
+        pauseGame = GameObject.FindWithTag("Player").GetComponent<PauseGame>();
     }
 
     // Update is called once per frame
     void LateUpdate() {
+        if (pauseGame.GetPaused()) return;
+
         float interpolation = speed * Time.fixedDeltaTime;
         Vector3 position = playerCam.transform.position;
         Vector3 behindTarget = new Vector3(player.transform.position.x, 0, player.transform.position.z - 10); //- new Vector3(2 * player.transform.position.z);
