@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WoodItem
   m_EditorClassIdentifier: 
   isStackable: 0
-  maxStack: 1
+  maxStack: 64
   itemName: Wood
   cooldown: 0.1
   consumable: 1

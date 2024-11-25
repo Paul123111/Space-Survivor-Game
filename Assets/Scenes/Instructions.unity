@@ -1009,7 +1009,13 @@ MonoBehaviour:
     Inventory:
 
     0-9
-    - Inventory Slots, Q - Cycle Left, E/Middle Mouse - Cycle Right
+    - Inventory Slots, Q - Cycle Left, E/Middle Mouse - Cycle Right, Escape/Z - Pause,
+    B - Hide Scoreboard
+
+
+    While Paused:
+
+    Left click - Move to backpack/Craft
 
 
     Objective:
@@ -1017,7 +1023,12 @@ MonoBehaviour:
     Keep
     your oxygen and powers levels up and repair the space ship by interacting with
     it. You can mine blocks with the laser drill, place blocks, and use weapons to
-    survive. Your player has a range to use items.'
+    survive. Your player has a range to use items.
+
+
+    Use equipments such as filters,
+    armour and robots with left click to equip them. Use right click on crafting
+    stations (purple blocks) to open the crafting menu.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 64359c1ffcb77ea4aaae9aef052206a7, type: 2}
   m_sharedMaterial: {fileID: 2603604669212109173, guid: 64359c1ffcb77ea4aaae9aef052206a7, type: 2}
@@ -1044,8 +1055,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -152,8 +152,9 @@ public class PlayerMovement : MonoBehaviour
         {
             case "BlueBiomeTerrain": maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
             case "RedBiomeTerrain": maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
+            case "CaveTerrain": maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
             case "Water": maxAcceleration = maxAccelerationWater; playerSpeed = maxSpeedWater; break;
-            default: break;
+            default: maxAcceleration = maxAccelerationGround; playerSpeed = maxSpeedGround; break;
         }
     }
 
@@ -167,10 +168,10 @@ public class PlayerMovement : MonoBehaviour
         }
         //print(walls.GetTile(tilePos).name);
         switch (walls.GetTile(tilePos).name) {
-            case "CaveEntrance": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(5); break;
+            case "CaveEntrance": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(4); break;
             case "CaveExit": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(1); break;
             case "Spaceship": {
-                    if (inventory.NumberOfItemsHeld(10) >= 24 && inventory.NumberOfItemsHeld(4) >= 32 && inventory.NumberOfItemsHeld(5) >= 4) {
+                    if (inventory.NumberOfItemsHeld(10) >= 24 && inventory.NumberOfItemsHeld(4) >= 32 && inventory.NumberOfItemsHeld(5) >= 4 && inventory.NumberOfItemsHeld(19) >= 16) {
                         singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(0);
                     } else {
                         print("not enough materials"); 
@@ -223,12 +224,31 @@ public class PlayerMovement : MonoBehaviour
                     Destroy(other.gameObject);
                     break;
                 }
+            case "AlienHidePickup": {
+                    //print("hi");
+                    collectAudio.Play();
+                    inventory.AddItemToInventory(18);
+                    Destroy(other.gameObject);
+                    break;
+                }
+            case "AlienEyePickup": {
+                    //print("hi");
+                    collectAudio.Play();
+                    inventory.AddItemToInventory(19);
+                    Destroy(other.gameObject);
+                    break;
+                }
             case "EnemyHitbox": {
                     // TODO: move to separate script
                     if (invincibleTimer <= 0 && other.TryGetComponent<EnemyHitbox>(out EnemyHitbox hitbox)) {
+                        ArmourItem armourItem = (ArmourItem) inventory.GetArmour();
                         SetInvinciblityTime();
                         playerStats.ScreenFlash();
-                        playerStats.SetOxygen(playerStats.GetOxygen() - hitbox.GetDamage());
+                        if (armourItem != null) {
+                            playerStats.SetOxygen(playerStats.GetOxygen() - (hitbox.GetDamage() * (1.0f - armourItem.GetDamageReduction())));
+                        } else {
+                            playerStats.SetOxygen(playerStats.GetOxygen() - hitbox.GetDamage());
+                        }
                         playerHurtAudio.Play();
                     }
                     break;

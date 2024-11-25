@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ChaseState : EnemyState
 {
     [SerializeField] WanderingState wanderingState;
-    [SerializeField] EnemyState attackState;
+    [SerializeField] EnemyState[] attackState;
     [SerializeField] float attackRange = 5f;
 
     [SerializeField] NavMeshAgent agent;
@@ -29,7 +29,7 @@ public class ChaseState : EnemyState
         
         if (InRange()) {
             anim.SetBool("inAttackRange", true);
-            return attackState;
+            return attackState[Random.Range(0, attackState.Length)];
         }
         
         wanderingState.Look();
@@ -58,6 +58,10 @@ public class ChaseState : EnemyState
             return true;
         }
         return false;
+    }
+
+    public EnemyState[] GetAttackStates() {
+        return attackState;
     }
 
 }

@@ -19,6 +19,7 @@ public class PlayerStats : MonoBehaviour
     float power;
 
     GameSceneManager gameSceneManager;
+    Inventory inventory;
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +28,13 @@ public class PlayerStats : MonoBehaviour
         powerBar = GameObject.Find("PowerBar").GetComponent<Image>();
         screenFlash = GameObject.Find("ScreenFlash").GetComponent<Image>();
 
-        oxygen = maxOxygen;
-        power = maxPower;
+        //oxygen = maxOxygen;
+        //power = maxPower;
+
+        LoadStats();
 
         gameSceneManager = GameObject.FindWithTag("Singleton").GetComponent<GameSceneManager>();
+        inventory = GameObject.FindWithTag("ItemManager").GetComponent<Inventory>();
     }
 
     // Update is called once per frame
@@ -48,20 +52,50 @@ public class PlayerStats : MonoBehaviour
 
     void DepleteStats() {
         if (power > 0) {
-            power -= 0.0005f;
+            power -= 0.25f * Time.deltaTime;
         } else {
-            oxygen -= 0.1f;
+            oxygen -= 0.5f*Time.deltaTime;
         }
 
         if (power < 0) {
             power = 0;
         }
 
+        if (inventory.GetFlower() != null) {
+            power += inventory.GetFlower().GetPowerRate() * Time.deltaTime;
+            if (power > 0) {
+                oxygen += inventory.GetFlower().GetOxygenRate() * Time.deltaTime;
+            }
+        }
+
+        if (power > 100) {
+            power = 100;
+        }
+
+        if (oxygen > 100) {
+            oxygen = 100;
+        }
+
         if (oxygen <= 0) {
             oxygen = 0;
             //print("Game Over");
-            gameSceneManager.LoadSceneByIndex(3);
+            gameSceneManager.LoadSceneByIndex(2);
         }
+    }
+
+    public void SaveStats() {
+        PlayerPrefs.SetFloat("power", power);
+        PlayerPrefs.SetFloat("oxygen", oxygen);
+    }
+
+    public void MaxStats() {
+        PlayerPrefs.SetFloat("power", maxPower);
+        PlayerPrefs.SetFloat("oxygen", maxOxygen);
+    }
+
+    void LoadStats() {
+        power = PlayerPrefs.GetFloat("power");
+        oxygen = PlayerPrefs.GetFloat("oxygen");
     }
 
     public float GetOxygen() {

@@ -25,7 +25,8 @@ public class CraftingRecipeButton : MonoBehaviour
     //}
 
     public void SetRecipe() {
-        craftingSystem.SetCurrentRecipe(craftingRecipe);
+        if (craftingRecipe != null)
+            craftingSystem.SetCurrentRecipe(craftingRecipe);
     }
 
     public void ChangeButtonRecipe(CraftingRecipe craftingRecipe) {
@@ -41,7 +42,8 @@ public class CraftingRecipeButton : MonoBehaviour
         }
         str += " = " + craftingRecipe.GetResult().GetName();
 
-        recipeDescription.text = str;
+        if (recipeDescription != null)
+            recipeDescription.text = str;
     }
 
     public void RemoveButtonRecipe() {

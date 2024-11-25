@@ -784,6 +784,8 @@ MonoBehaviour:
   faceTarget: {fileID: 6563814874690344088}
   enemyBody: {fileID: 8487385523053333147}
   hurtbox: {fileID: 8223380415447961437}
+  dropChance: 100
+  drop: {fileID: 66472856557700571, guid: 6ecf2e7a6ac3c864aa24c775ec648d52, type: 3}
 --- !u!1 &3489298514518589268
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,7 +1296,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wanderingState: {fileID: 4817076750742479770}
-  attackState: {fileID: 9004937907359703499}
+  attackState:
+  - {fileID: 9004937907359703499}
   attackRange: 6
   agent: {fileID: 267645530647886392}
   faceTarget: {fileID: 6563814874690344088}
@@ -1667,6 +1670,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -14.150228
       objectReference: {fileID: 0}
+    - target: {fileID: -907319819445056049, guid: 356c2bf1f4375344dbee43c3f03675eb, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 10cc71b48a45335468dbe035cdc48419, type: 2}
     - target: {fileID: 366175167995203695, guid: 356c2bf1f4375344dbee43c3f03675eb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 5.1528883

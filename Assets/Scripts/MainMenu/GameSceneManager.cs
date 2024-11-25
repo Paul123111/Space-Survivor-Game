@@ -8,9 +8,10 @@ public class GameSceneManager : MonoBehaviour
     int score = 0;
     [SerializeField] Inventory inventory;
     [SerializeField] DayNightCycle dayNightCycle;
+    [SerializeField] PlayerStats playerStats;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         score = PlayerPrefs.GetInt("score");
     }
@@ -28,6 +29,7 @@ public class GameSceneManager : MonoBehaviour
     public void LoadSceneByIndex(int index) {
         inventory.SaveInventory();
         dayNightCycle.SaveTimer();
+        playerStats.SaveStats();
         SceneManager.LoadScene(index);
         PlayerPrefs.SetInt("score", score);
     }

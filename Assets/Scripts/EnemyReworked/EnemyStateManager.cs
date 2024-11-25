@@ -8,10 +8,11 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] EnemyState deathState;
     [SerializeField] EnemyStatsUI enemyStatsUI;
     [SerializeField] Animator anim;
+    DayNightCycle dayNightCycle;
     AnimatorStateInfo info;
 
     private void Start() {
-        
+        dayNightCycle = GameObject.FindWithTag("Singleton").GetComponent<DayNightCycle>();
     }
 
     // Update is called once per frame
@@ -25,7 +26,7 @@ public class EnemyStateManager : MonoBehaviour
         info = anim.GetCurrentAnimatorStateInfo(0);
 
         // dying overrides state
-        if (enemyStatsUI.GetHealth() <= 0) {
+        if (enemyStatsUI.GetHealth() <= 0 || !dayNightCycle.IsDay()) {
             deathState.RunCurrentState();
             if (info.IsName("Dead")) {
                 Destroy(gameObject, 3f);

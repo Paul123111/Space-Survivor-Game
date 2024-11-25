@@ -11,6 +11,7 @@ public class CameraMouse : MonoBehaviour {
     Quaternion fromRotation;
     //Vector2 cameraPos;
     PauseGame pauseGame;
+    bool startCamera = false;
 
     // Start is called before the first frame update
     void Start() {
@@ -36,6 +37,11 @@ public class CameraMouse : MonoBehaviour {
         playerCam.transform.LookAt(targetGroup.position);
         //playerCam.transform.rotation = Quaternion.Euler(new Vector3(Mathf.Lerp(fromRotation.x, toRotation.x, interpolation), 0, 0));
     }
+
+    //IEnumerator WaitForSpawn() {
+    //    yield return new WaitForEndOfFrame();
+    //    startCamera = true;
+    //}
 
     //private void CameraPosition() {
     //    Vector3 playerPos = new Vector3(player.transform.position.x, 0, player.transform.position.z);

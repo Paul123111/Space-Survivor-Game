@@ -61,11 +61,20 @@ public class MenuSceneManager : MonoBehaviour
         PlayerPrefs.SetFloat("timer", 0);
         PlayerPrefs.SetInt("dayCount", 0);
         PlayerPrefs.SetInt("isDay", 0);
+        PlayerPrefs.SetFloat("power", 100f);
+        PlayerPrefs.SetFloat("oxygen", 100f);
+
+        PlayerPrefs.SetInt("armour", 0);
+        PlayerPrefs.SetInt("flower", 0);
+        PlayerPrefs.SetInt("robot1", 0);
+        PlayerPrefs.SetInt("robot2", 0);
+        PlayerPrefs.SetInt("robot3", 0);
+        PlayerPrefs.SetInt("robot4", 0);
 
     }
 
     public void LoadInstructions() {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(3);
     }
 
     public void LoadMenu() {

@@ -36,6 +36,8 @@ TagManager:
   - IronPickup
   - CaveExit
   - Spaceship
+  - AlienHidePickup
+  - AlienEyePickup
   layers:
   - Default
   - TransparentFX

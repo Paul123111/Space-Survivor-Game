@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using TMPro;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Inventory : InventoryHolder
 {
@@ -19,6 +20,20 @@ public class Inventory : InventoryHolder
 
     [SerializeField] PauseGame pauseGame;
 
+    ItemStack armourSlot;
+    UIInventorySlot UIArmourSlot;
+    TextMeshProUGUI armourStat;
+
+    ItemStack[] robotSlots = new ItemStack[4];
+    UIInventorySlot[] UIRobotSlots = new UIInventorySlot[4];
+    int numRobots = 0;
+
+    RobotSystem robotSystem;
+
+    ItemStack flowerSlot;
+    UIInventorySlot UIFlowerSlot;
+    TextMeshProUGUI flowerStat;
+
     private void Start() {
         GameObject hotbar = GameObject.FindWithTag("Hotbar");
         UIInventorySlots = new UIInventorySlot[10];
@@ -27,6 +42,21 @@ public class Inventory : InventoryHolder
         singleton = GameObject.FindWithTag("Singleton").GetComponent<Singleton>();
         backpack = GetComponent<Backpack>();
         numSlots = 10;
+
+        armourSlot = GameObject.Find("ArmourSlot").GetComponent<ItemStack>();
+        UIArmourSlot = GameObject.Find("ArmourSlot").GetComponent<UIInventorySlot>();
+        armourStat = GameObject.Find("ArmourStat").GetComponent<TextMeshProUGUI>();
+
+        robotSystem = GameObject.Find("RobotsRoot").GetComponent<RobotSystem>();
+        
+        for (int i = 0; i < 4; i++) {
+            robotSlots[i] = GameObject.Find("RobotSlot" + (i+1)).GetComponent<ItemStack>();
+            UIRobotSlots[i] = GameObject.Find("RobotSlot" + (i+1)).GetComponent<UIInventorySlot>();
+        }
+
+        flowerSlot = GameObject.Find("FlowerSlot").GetComponent<ItemStack>();
+        UIFlowerSlot = GameObject.Find("FlowerSlot").GetComponent<UIInventorySlot>();
+        flowerStat = GameObject.Find("FlowerStat").GetComponent<TextMeshProUGUI>();
 
         for (int i = 1; i < itemList.Length; i++) {
             itemList[i].SetUp();
@@ -45,6 +75,10 @@ public class Inventory : InventoryHolder
                 //print(PlayerPrefs.GetInt("ItemID" + i));
             }
         }
+
+        SetRobots();
+        SetArmour();
+        SetFlower();
 
         ChangeHeldItem(1);
         //OnSwitch();
@@ -242,6 +276,13 @@ public class Inventory : InventoryHolder
             print(PlayerPrefs.GetInt("ItemID" + i));
             PlayerPrefs.SetInt("ItemStack" + i, itemStacks[i].GetAmount());
         }
+
+        PlayerPrefs.SetInt("armour", Array.IndexOf(itemList, GetArmour()));
+        PlayerPrefs.SetInt("flower", Array.IndexOf(itemList, GetFlower()));
+        PlayerPrefs.SetInt("robot1", Array.IndexOf(itemList, GetRobot(0)));
+        PlayerPrefs.SetInt("robot2", Array.IndexOf(itemList, GetRobot(1)));
+        PlayerPrefs.SetInt("robot3", Array.IndexOf(itemList, GetRobot(2)));
+        PlayerPrefs.SetInt("robot4", Array.IndexOf(itemList, GetRobot(3)));
     }
 
     public ItemObject[] GetItemList() {
@@ -266,5 +307,103 @@ public class Inventory : InventoryHolder
         backpack.UpdateName(slot);
         AddItemToInventory(item);
         ChangeHeldItem(1);
+    }
+
+    // lose prev armour (to fix)
+    public void EquipArmour(int slot) {
+        ItemStack itemStack = GetItemStacks()[slot];
+        armourSlot.UpdateStack(itemStack.GetItem());
+        UIArmourSlot.SetName(itemStack);
+        ArmourItem armourItem = (ArmourItem) armourSlot.GetItem();
+        armourStat.text = "DR: " + armourItem.GetDamageReduction()*100 + "%";
+    }
+
+    public void UnequipArmour() {
+        if (armourSlot.GetItem() == null) return;
+        AddItemToInventory(armourSlot.GetItem());
+
+        armourSlot.RemoveItem();
+        UIArmourSlot.SetName(null);
+        armourStat.text = "DR: 0%";
+    }
+
+    public ItemObject GetArmour() {
+        return armourSlot.GetItem();
+    }
+
+    public void SetArmour() {
+        if (PlayerPrefs.GetInt("armour") != 0) {
+            armourSlot.UpdateStack(itemList[PlayerPrefs.GetInt("armour")]);
+            UIArmourSlot.SetStringName(armourSlot.GetItem().GetName());
+        }
+    }
+
+    public void EquipFlower(int slot) {
+        ItemStack itemStack = GetItemStacks()[slot];
+        flowerSlot.UpdateStack(itemStack.GetItem());
+        UIFlowerSlot.SetName(itemStack);
+        FlowerItem flowerItem = (FlowerItem)flowerSlot.GetItem();
+        flowerStat.text = "Power/sec: " + flowerItem.GetPowerRate() + "\nO2/sec: " + flowerItem.GetOxygenRate();
+    }
+
+    public void UnequipFlower() {
+        if (flowerSlot.GetItem() == null) return;
+        AddItemToInventory(flowerSlot.GetItem());
+
+        flowerSlot.RemoveItem();
+        UIFlowerSlot.SetName(null);
+        flowerStat.text = "No bonuses";
+    }
+
+    public FlowerItem GetFlower() {
+        return (FlowerItem) flowerSlot.GetItem();
+    }
+
+    public void SetFlower() {
+        if (PlayerPrefs.GetInt("flower") != 0) {
+            flowerSlot.UpdateStack(itemList[PlayerPrefs.GetInt("flower")]);
+            UIFlowerSlot.SetStringName(flowerSlot.GetItem().GetName());
+        }
+    }
+
+    // robots
+    public void EquipRobot(int slot) {
+        if (numRobots >= 4) return;
+
+        ItemStack itemStack = GetItemStacks()[slot];
+        for (int i = 0; i < 4; i++) {
+            if (robotSlots[i].GetItem() == null) {
+                robotSlots[i].UpdateStack(itemStack.GetItem());
+                UIRobotSlots[i].SetName(itemStack);
+
+                robotSystem.UpdateRobots();
+                return;
+            }
+        }
+        //armourStat.text = "DR: " + GetRobot.GetDamageReduction() * 100 + "%";
+    }
+
+    public void SetRobots() {
+        for (int i = 0; i < 4; i++) {
+            if (PlayerPrefs.GetInt("robot" + (i+1)) != 0) {
+                robotSlots[i].UpdateStack(itemList[PlayerPrefs.GetInt("robot" + (i + 1))]);
+                UIRobotSlots[i].SetStringName(robotSlots[i].GetItem().GetName());
+            }
+        }
+        robotSystem.UpdateRobots();
+    }
+
+    public void UnequipRobot(int index) {
+        if (robotSlots[index].GetItem() == null) return;
+        AddItemToInventory(robotSlots[index].GetItem());
+
+        robotSlots[index].RemoveItem();
+        UIRobotSlots[index].SetName(null);
+        //armourStat.text = "DR: 0%";
+        robotSystem.UpdateRobots();
+    }
+
+    public RobotItem GetRobot(int index) {
+        return (RobotItem) robotSlots[index].GetItem();
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Backpack : InventoryHolder
 {
@@ -13,7 +12,7 @@ public class Backpack : InventoryHolder
     // Start is called before the first frame update
     void Start()
     {
-        GameObject backpack = GameObject.Find("FullInventory");
+        GameObject backpack = GameObject.Find("FullInventorySlots");
         inventory = GetComponent<Inventory>();
         itemStacks = backpack.GetComponentsInChildren<ItemStack>();
         UIInventorySlots = backpack.GetComponentsInChildren<UIInventorySlot>();

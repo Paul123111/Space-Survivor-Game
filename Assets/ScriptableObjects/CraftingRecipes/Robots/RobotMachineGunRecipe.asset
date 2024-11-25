@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95f08c35aaeca354ba8a033a4e9bbbdd, type: 3}
-  m_Name: LaserGunRecipe
+  m_Name: RobotMachineGunRecipe
   m_EditorClassIdentifier: 
   requirements:
-  - item: {fileID: 11400000, guid: 4453a544e07b1bb4285bc1b9ff513835, type: 2}
-    amount: 4
-  result: {fileID: 11400000, guid: 534b10d6bee60bf44a8d875d94168271, type: 2}
+  - item: {fileID: 11400000, guid: e9573ea4f3d00d0418b84950e96e7b88, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 044b4c0ef196395498d145ea86ecab45, type: 2}
+    amount: 1
+  result: {fileID: 11400000, guid: b01a256581cb0de49a9e1b89376acbd3, type: 2}
   tier: 1

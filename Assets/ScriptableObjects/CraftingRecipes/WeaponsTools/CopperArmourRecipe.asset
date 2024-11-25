@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95f08c35aaeca354ba8a033a4e9bbbdd, type: 3}
-  m_Name: LaserMachineGunRecipe
+  m_Name: CopperArmourRecipe
   m_EditorClassIdentifier: 
   requirements:
-  - item: {fileID: 11400000, guid: 534b10d6bee60bf44a8d875d94168271, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 5a8efe0318196a945a6d44748d36c45e, type: 2}
-    amount: 12
-  - item: {fileID: 11400000, guid: 8550e83e4b79e8f4cb954f8baaa5135d, type: 2}
+  - item: {fileID: 11400000, guid: 044b4c0ef196395498d145ea86ecab45, type: 2}
     amount: 4
-  result: {fileID: 11400000, guid: e9573ea4f3d00d0418b84950e96e7b88, type: 2}
+  - item: {fileID: 11400000, guid: 5a8efe0318196a945a6d44748d36c45e, type: 2}
+    amount: 4
+  result: {fileID: 11400000, guid: 7e6aca7e8b519cf469bbf73ab1474938, type: 2}
   tier: 1

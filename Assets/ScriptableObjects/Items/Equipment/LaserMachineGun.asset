@@ -21,7 +21,7 @@ MonoBehaviour:
   velocity: 50
   accuracy: 0.2
   numProjectiles: 2
-  damage: 4
+  damage: 8
   laserGunAudioClips:
   - {fileID: 8300000, guid: 38bd9062f454c6d41867862ef28e6de7, type: 3}
   - {fileID: 8300000, guid: f64ba3855d732a34093c4d7b64748783, type: 3}

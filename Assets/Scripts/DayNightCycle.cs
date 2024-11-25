@@ -80,6 +80,10 @@ public class DayNightCycle : MonoBehaviour
         return isDay;
     }
 
+    public int GetDayCount() {
+        return dayCount;
+    }
+
     public void SaveTimer() {
         PlayerPrefs.SetFloat("timer", timer);
         PlayerPrefs.SetInt("dayCount", dayCount);

@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OverworldTest.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/UnusedOverworldLevel2.unity
     guid: b64b8999b5ae5ba4096d153d713314a0
   - enabled: 1
@@ -20,7 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Instructions.unity
     guid: 7440993c910149148a6514a4cd5bc899
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CaveTest.unity
     guid: de4e294674867ac4b81115f7a5bf8fe7
+  - enabled: 1
+    path: Assets/Scenes/CaveWorld.unity
+    guid: d4a7aa09d35c1bb4d94f8fca34431043
   m_configObjects: {}

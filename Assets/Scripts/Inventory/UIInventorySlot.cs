@@ -25,6 +25,10 @@ public class UIInventorySlot : MonoBehaviour
         } 
     }
 
+    public void SetStringName(string name) {
+        nameDisplay.text = name;
+    }
+
     // Update is called once per frame
     //void Update()
     //{

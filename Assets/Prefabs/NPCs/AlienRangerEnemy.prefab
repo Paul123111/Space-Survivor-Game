@@ -196,7 +196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wanderingState: {fileID: 4677134622107063586}
-  attackState: {fileID: 2627583825793891163}
+  attackState:
+  - {fileID: 2627583825793891163}
   attackRange: 18
   agent: {fileID: 678656185166435086}
   faceTarget: {fileID: 2161565075224059385}
@@ -648,6 +649,8 @@ MonoBehaviour:
   faceTarget: {fileID: 2161565075224059385}
   enemyBody: {fileID: 3764980432209611845}
   hurtbox: {fileID: 6817225083613109389}
+  dropChance: 75
+  drop: {fileID: 66472856557700571, guid: 6ecf2e7a6ac3c864aa24c775ec648d52, type: 3}
 --- !u!1 &6337684985143870770
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,11 +803,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laser: {fileID: 5536453301661974971, guid: 2fbb5f6588987394a99cafdc1f7c6a3d, type: 3}
-  velocity: 15
+  velocity: 10
   accuracy: 1.5
-  numProjectiles: 6
+  numProjectiles: 4
   damage: 15
   cooldown: 0.75
+  numRounds: 1
+  timeBetweenRounds: 1
   agent: {fileID: 678656185166435086}
   faceTarget: {fileID: 2161565075224059385}
   chaseState: {fileID: 7137688018167975117}
@@ -1547,6 +1552,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.4517729
       objectReference: {fileID: 0}
+    - target: {fileID: -907319819445056049, guid: 356c2bf1f4375344dbee43c3f03675eb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1754014b8ef751d4a81959cd7ddd4cda, type: 2}
+    - target: {fileID: -907319819445056049, guid: 356c2bf1f4375344dbee43c3f03675eb, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: aa7b1bfd60b378648a803759aba158fb, type: 2}
     - target: {fileID: 366175167995203695, guid: 356c2bf1f4375344dbee43c3f03675eb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 16.41352

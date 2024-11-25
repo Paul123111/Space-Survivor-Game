@@ -13,6 +13,9 @@ public class DeathState : EnemyState
     [SerializeField] Collider enemyBody;
     [SerializeField] Collider hurtbox;
 
+    [SerializeField] float dropChance = 100f; //out of 100
+    [SerializeField] GameObject drop;
+
     private void Start() {
         //enemyDeathAudio = GameObject.FindWithTag("EnemyDeathAudio").GetComponent<AudioSource>();
     }
@@ -28,6 +31,9 @@ public class DeathState : EnemyState
             enemyBody.gameObject.tag = "Untagged";
             hurtbox.enabled = false;
             faceTarget.SetLookingAtTarget(false);
+
+            if (Random.Range(0f, 100f) <= dropChance) Instantiate(drop, hurtbox.transform);
+            
             enemyDeathAudio.Play();
         }
         if (info.IsName("Dying")) {

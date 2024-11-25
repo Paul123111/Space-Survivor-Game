@@ -15,7 +15,7 @@ public class ItemObject : ScriptableObject
     //[SerializeField] Sprite itemSprite;
 
     public virtual void SetUp() {
-        Debug.Log("Setup");
+        //Debug.Log("Setup");
     }
 
     // returns true if item was used successfully, false otherwise
