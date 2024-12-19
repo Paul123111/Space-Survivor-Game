@@ -18,7 +18,7 @@ public class TileItem : ItemObject
     bool tilePlaceable;
     AudioSource blockPlaceSound;
 
-    Singleton singleton;
+    //Singleton singleton;
 
     // Start is called before the first frame update
     public override void SetUp() {

@@ -25,7 +25,8 @@ public class EnemySpawner : MonoBehaviour
         for (;;) {
             if (dayNightCycle.IsDay()) {
                 Vector3 pos = new Vector3(Random.Range(player.position.x - x, player.position.x + x), 0.5f, Random.Range(player.position.z - z, player.position.z + z));
-                while (Vector3.Distance(pos, player.position) < 10) {
+                
+                while (Vector3.Distance(pos, player.position) < 10 || pos.x > 63 || pos.z > 63 || pos.x < -63 || pos.z < -63) {
                     pos = new Vector3(Random.Range(player.position.x - x, player.position.x + x), 0.5f, Random.Range(player.position.z - z, player.position.z + z));
                 }
 

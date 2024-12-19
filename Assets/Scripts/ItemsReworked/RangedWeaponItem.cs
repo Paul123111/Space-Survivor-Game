@@ -12,9 +12,9 @@ public class RangedWeaponItem : ItemObject
     [SerializeField] float accuracy = 0f;
     [SerializeField] int numProjectiles = 1;
     [SerializeField] int damage = 20;
-    LineRenderer lineRenderer;
+    //LineRenderer lineRenderer;
 
-    Singleton singleton;
+    //Singleton singleton;
     GoToMouse goToMouse;
 
     [SerializeField] AudioClip[] laserGunAudioClips;

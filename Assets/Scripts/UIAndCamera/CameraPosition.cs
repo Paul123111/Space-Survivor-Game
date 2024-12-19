@@ -11,7 +11,7 @@ public class CameraMouse : MonoBehaviour {
     Quaternion fromRotation;
     //Vector2 cameraPos;
     PauseGame pauseGame;
-    bool startCamera = false;
+    //bool startCamera = false;
 
     // Start is called before the first frame update
     void Start() {

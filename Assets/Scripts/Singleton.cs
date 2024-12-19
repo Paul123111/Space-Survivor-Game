@@ -5,20 +5,35 @@ using TMPro;
 
 public class Singleton : MonoBehaviour
 {
-    [SerializeField] GameObject gridVisual;
+    GameObject gridVisual;
     GameSceneManager gameSceneManager;
     TextMeshProUGUI blocksBroken;
+    TextMeshProUGUI enemiesSlain;
+
+    //int numSingletons = 0;
+
+    //private void Awake() {
+    //    numSingletons = FindObjectsOfType<Singleton>().Length;
+    //    if (numSingletons > 1) {
+    //        Destroy(gameObject);
+    //    } else {
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //}
 
     // Start is called before the first frame update
     void Start()
     {
         gameSceneManager = GetComponent<GameSceneManager>();
         blocksBroken = GameObject.FindWithTag("BlocksBrokenText").GetComponent<TextMeshProUGUI>();
-        blocksBroken.text = ">Blocks Broken: " + gameSceneManager.GetScore();
+        blocksBroken.text = "Blocks Broken:" + gameSceneManager.GetScore();
+        gridVisual = GameObject.Find("GridVisual");
+        enemiesSlain = GameObject.Find("EnemiesSlain").GetComponent<TextMeshProUGUI>();
     }
 
     public void showGrid(bool show) {
-        gridVisual.SetActive(show);
+        if (gridVisual != null)
+            gridVisual.SetActive(show);
     }
 
     public int GetScore() {
@@ -27,6 +42,15 @@ public class Singleton : MonoBehaviour
 
     public void SetScore(int score) {
         gameSceneManager.SetScore(score);
-        blocksBroken.text = ">Blocks Broken: " + score;
+        blocksBroken.text = "Blocks Broken:" + score;
+    }
+
+    public void SetKillCount(int kills) {
+        gameSceneManager.SetKillCount(kills);
+        enemiesSlain.text = "Enemies Slain:" + kills;
+    }
+
+    public int GetKillCount() {
+        return gameSceneManager.GetKillCount();
     }
 }

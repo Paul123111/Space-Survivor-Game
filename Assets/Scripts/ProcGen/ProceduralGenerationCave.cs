@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class ProceduralGenerationCave : MonoBehaviour
 {
@@ -13,10 +16,11 @@ public class ProceduralGenerationCave : MonoBehaviour
     int index2 = 0;
     int index0 = 0;
     [SerializeField] Transform player;
+    [SerializeField] Transform playerBody;
 
     // so cave doesnt generate over player
-    int playerChunkX = -3;
-    int playerChunkY = -3;
+    //int playerChunkX = -3;
+    //int playerChunkY = -3;
 
     int[, ,] chunks = new int[, ,] {
     {
@@ -149,5 +153,74 @@ public class ProceduralGenerationCave : MonoBehaviour
             case 10: walls.SetTile(tilePos, tiles[8]); break; // boulder
             default: walls.SetTile(tilePos, null); break; // no tile
         }
+    }
+
+    void GenerateTile(int x, int z, int tileID) {
+        Vector3Int tilePos = grid.WorldToCell(new Vector3(x, 0, z));
+        switch (tileID) {
+            case -1: walls.SetTile(tilePos, null); break; // no tile
+            case 0: walls.SetTile(tilePos, tiles[0]); break; // blue wall
+            case 1: walls.SetTile(tilePos, tiles[1]); break; // tree
+            case 2: walls.SetTile(tilePos, tiles[2]); break; // spaceflower
+            case 3: ground.SetTile(tilePos, tiles[3]); break; // water
+            case 4: walls.SetTile(tilePos, tiles[4]); break; // spaceship
+            case 5: walls.SetTile(tilePos, tiles[5]); break; // crafting station
+            //case 6: walls.SetTile(tilePos, null); player.position = new Vector3(x, 0, z); break; // no tile, SpawnPlayer
+            case 6: walls.SetTile(tilePos, tiles[6]); break; // cave entrance
+            case 7: walls.SetTile(tilePos, tiles[7]); break; // cave entrance
+            case 8: walls.SetTile(tilePos, tiles[8]); break; // wood
+            case 9: walls.SetTile(tilePos, tiles[9]); break; // cave exit
+            case 10: walls.SetTile(tilePos, tiles[10]); break; // boulder
+            default: walls.SetTile(tilePos, null); break; // no tile
+        }
+    }
+
+    public int FindTileID(RuleTile tile) {
+        return Array.IndexOf(tiles, tile);
+    }
+
+    public string SaveCaves() {
+        string dataToSave = "";
+        Vector3Int tilePos = grid.WorldToCell(new Vector3(0, 0, 0));
+        for (int i = -64; i < 64; i += 2) {
+            for (int j = -64; j < 64; j += 2) {
+                tilePos = grid.WorldToCell(new Vector3(i, 0, j));
+                dataToSave += FindTileID((RuleTile)walls.GetTile(tilePos)) + ",";
+            }
+        }
+        print(dataToSave);
+        return dataToSave;
+    }
+
+    public void LoadCaves() {
+        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        dataRead = dataRead.Split("*")[3];
+        string[] tileArray = dataRead.Split(",");
+        int counter = 0;
+
+        for (int i = -64; i < 64; i += 2) {
+            for (int j = -64; j < 64; j += 2) {
+                GenerateTile(i, j, int.Parse(tileArray[counter]));
+                counter++;
+            }
+        }
+    }
+
+    public string SavePlayerPosition() {
+        string[] pos = new string[2];
+        pos[0] = playerBody.position.x.ToString();
+        pos[1] = playerBody.position.z.ToString();
+
+        string dataToSave = string.Join(",", pos);
+        print(dataToSave);
+        return dataToSave;
+    }
+
+    public void LoadPlayerPosition() {
+        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        dataRead = dataRead.Split("*")[4];
+        string[] posArray = dataRead.Split(",");
+
+        player.position = new Vector3(float.Parse(posArray[0]), 0, float.Parse(posArray[1]));
     }
 }

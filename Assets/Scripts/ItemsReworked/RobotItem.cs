@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "armour", menuName = "Item/Robot")]
-public class RobotItem : ItemObject
+public class RobotItem : EquippableItem
 {
     [SerializeField] GameObject robot;
     Inventory inventory;

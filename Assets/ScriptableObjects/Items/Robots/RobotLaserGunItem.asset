@@ -15,6 +15,8 @@ MonoBehaviour:
   isStackable: 0
   maxStack: 1
   itemName: Laser Gun Robot
-  cooldown: 0.05
-  consumable: 1
+  cooldown: 0.5
+  consumable: 0
+  icon: {fileID: 21300000, guid: ba07293873cd01c4bb1511cbc4e80b9f, type: 3}
+  equippedDescription: Laser
   robot: {fileID: 3834896465754942872, guid: 38aa3f1ec3e00624f9c768bb036940bf, type: 3}

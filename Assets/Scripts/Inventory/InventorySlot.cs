@@ -13,9 +13,9 @@ public class InventorySlot : MonoBehaviour
 
     }
 
-    public void AddItem(ItemObject item) {
-        itemStack.UpdateStack(item);
-    }
+    //public void AddItem(ItemObject item) {
+    //    itemStack.IncrementStack(item);
+    //}
 
     public ItemStack GetItemStack() {
         return itemStack;

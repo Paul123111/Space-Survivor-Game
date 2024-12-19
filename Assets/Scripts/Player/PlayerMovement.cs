@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -25,15 +26,16 @@ public class PlayerMovement : MonoBehaviour
     //[SerializeField] float rotateSpeed = 1f;
     [SerializeField] Transform target;
     [SerializeField] Camera playerCam;
-    [SerializeField] Tilemap walls;
-    [SerializeField] Tilemap ground;
-    [SerializeField] RuleTile tile;
-    [SerializeField] Grid grid;
+    Tilemap walls;
+    Tilemap ground;
+    //[SerializeField] RuleTile tile;
+    Grid grid;
     [SerializeField] Inventory inventory;
     [SerializeField] AudioSource collectAudio;
     [SerializeField] GameObject breadCrumb;
 
-    [SerializeField] Singleton singleton;
+    Singleton singleton;
+    GameSceneManager gameSceneManager;
     [SerializeField] PlayerStats playerStats;
 
     bool tilePlaceable = true;
@@ -43,12 +45,15 @@ public class PlayerMovement : MonoBehaviour
 
     //[SerializeField] Material defaultMaterial;
     //[SerializeField] Material invincibleMaterial;
-    [SerializeField] AudioSource playerHurtAudio;
+    AudioSource playerHurtAudio;
     Animator anim;
 
-    [SerializeField] GameObject craftingUI;
+    GameObject craftingUI;
+    CraftingSystem craftingSystem;
 
     [SerializeField] PauseGame pauseGame;
+
+    int debugID = 1;
 
     //[SerializeField] Renderer astronautModel;
 
@@ -60,6 +65,14 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         //gameObject.GetComponent<Renderer>().material = defaultMaterial;
         anim = GameObject.FindWithTag("PlayerModel").GetComponent<Animator>();
+        grid = GameObject.Find("Grid").GetComponent<Grid>();
+        walls = GameObject.Find("Walls").GetComponent<Tilemap>();
+        ground = GameObject.Find("Ground").GetComponent<Tilemap>();
+        singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
+        gameSceneManager = GameObject.Find("Singleton").GetComponent<GameSceneManager>();
+        playerHurtAudio = GameObject.Find("PlayerHurtAudio").GetComponent<AudioSource>();
+        craftingUI = GameObject.Find("CraftingMenu");
+        craftingSystem = craftingUI.GetComponent<CraftingSystem>();
     }
 
     // Update is called once per frame
@@ -168,8 +181,8 @@ public class PlayerMovement : MonoBehaviour
         }
         //print(walls.GetTile(tilePos).name);
         switch (walls.GetTile(tilePos).name) {
-            case "CaveEntrance": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(4); break;
-            case "CaveExit": singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(1); break;
+            case "CaveEntrance": StartCoroutine(gameSceneManager.SaveAndLoadScene(4)); break;
+            case "CaveExit": StartCoroutine(gameSceneManager.SaveAndLoadScene(1)); break;
             case "Spaceship": {
                     if (inventory.NumberOfItemsHeld(10) >= 24 && inventory.NumberOfItemsHeld(4) >= 32 && inventory.NumberOfItemsHeld(5) >= 4 && inventory.NumberOfItemsHeld(19) >= 16) {
                         singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(0);
@@ -181,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
             case "CraftingStation":
                 {
                     pauseGame.TogglePause();
-                    craftingUI.SetActive(true);
+                    craftingSystem.ViewCrafting();
                     break;
                 }
             default: break;
@@ -241,7 +254,7 @@ public class PlayerMovement : MonoBehaviour
             case "EnemyHitbox": {
                     // TODO: move to separate script
                     if (invincibleTimer <= 0 && other.TryGetComponent<EnemyHitbox>(out EnemyHitbox hitbox)) {
-                        ArmourItem armourItem = (ArmourItem) inventory.GetArmour();
+                        ArmourItem armourItem = inventory.GetArmour();
                         SetInvinciblityTime();
                         playerStats.ScreenFlash();
                         if (armourItem != null) {
@@ -265,4 +278,14 @@ public class PlayerMovement : MonoBehaviour
         //astronautModel.materials[1] = invincibleMaterial;
         invincibleTimer = playerInvincibilityTime;
     }
+
+    // Debug only
+    void OnDebugItem() {
+        inventory.AddItemToInventory(debugID % inventory.GetItemList().Length);
+        debugID++;
+    }
+
+    //void OnDebugSave() {
+    //    gameSceneManager.Save();
+    //}
 }

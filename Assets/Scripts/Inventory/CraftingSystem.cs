@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static CraftingRecipe;
 
 public class CraftingSystem : MonoBehaviour
@@ -15,6 +16,7 @@ public class CraftingSystem : MonoBehaviour
     int maxPages = 0;
 
     TextMeshProUGUI itemResultName;
+    Image itemResultImage;
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +25,11 @@ public class CraftingSystem : MonoBehaviour
         GameObject craftingPanel = GameObject.Find("RecipePanel");
         craftingRecipeButtons = craftingPanel.GetComponentsInChildren<CraftingRecipeButton>();
         itemResultName = GameObject.Find("ItemResultName").GetComponent<TextMeshProUGUI>();
+        itemResultImage = GameObject.Find("ItemResultImage").GetComponent<Image>();
 
-        maxPages = (int) Mathf.Floor(allCraftingRecipes.Length / 5.0f);
+        maxPages = (int) Mathf.Floor(allCraftingRecipes.Length / 3.0f);
 
-        SetPage(page);
+        
     }
 
     // Update is called once per frame
@@ -40,13 +43,13 @@ public class CraftingSystem : MonoBehaviour
         //print("has items");
 
         CraftingRecipe.CraftingRequirement[] craftingRequirements = currentRecipe.GetRequirements();
-        int itemSlot;
+        ItemObject item;
 
         // improve this code
         for (int i = 0; i < craftingRequirements.Length; i++) {
-            itemSlot = inventory.FindItem(craftingRequirements[i].GetItem());
+            item = craftingRequirements[i].GetItem();
             for (int j = 0; j < craftingRequirements[i].GetAmount(); j++) {
-                inventory.RemoveItemFromChosenStack(itemSlot);
+                inventory.RemoveItemFromInventory(item);
                 //print(itemSlot);
             }
         }
@@ -60,7 +63,9 @@ public class CraftingSystem : MonoBehaviour
 
     public void SetCurrentRecipe(CraftingRecipe craftingRecipe) {
         currentRecipe = craftingRecipe;
+
         itemResultName.text = craftingRecipe.GetResult().GetName();
+        itemResultImage.sprite = craftingRecipe.GetResult().GetIcon();
     }
 
     bool CheckItems() {
@@ -78,13 +83,19 @@ public class CraftingSystem : MonoBehaviour
     }
 
     void SetPage(int page) {
-        for (int i = page*5; i < (page*5)+5; i++) {
+        for (int i = page * 3; i < (page * 3) + 3; i++) {
             if (i >= allCraftingRecipes.Length) {
-                craftingRecipeButtons[i % 5].RemoveButtonRecipe();
+                craftingRecipeButtons[i % 3].RemoveButtonRecipe();
                 continue;
             }
-            craftingRecipeButtons[i%5].ChangeButtonRecipe(allCraftingRecipes[i]);
+            craftingRecipeButtons[i % 3].ChangeButtonRecipe(allCraftingRecipes[i]);
         }
+    }
+
+    public void ViewCrafting() {
+        page = 0;
+        SetPage(page);
+        gameObject.SetActive(true);
     }
 
     public void NextPage() {

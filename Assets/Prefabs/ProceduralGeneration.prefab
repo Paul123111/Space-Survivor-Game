@@ -48,6 +48,7 @@ MonoBehaviour:
   ground: {fileID: 0}
   grid: {fileID: 0}
   tiles:
+  - {fileID: 0}
   - {fileID: 11400000, guid: c6a083dd1e721d74daa17c005bde71fc, type: 2}
   - {fileID: 11400000, guid: c130925dac26a9a4e8d124d220e69eb6, type: 2}
   - {fileID: 11400000, guid: 9f5ced91640427d4d8fd56e9e4112f93, type: 2}
@@ -55,4 +56,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4db0385699860c34ebf1d2c3c250c0c4, type: 2}
   - {fileID: 11400000, guid: cffba7280f3438045be436f9de8cce96, type: 2}
   - {fileID: 11400000, guid: eb2a2fec8a197d045a748cdf6f69c49b, type: 2}
+  - {fileID: 11400000, guid: 975829bacc2e8c44faca63ca4cef820b, type: 2}
+  - {fileID: 11400000, guid: 2e9c891dd55441c408c74f9c27e97c99, type: 2}
+  - {fileID: 11400000, guid: 05199c79d9559b64f9d078df27443fb5, type: 2}
+  groundTiles:
+  - {fileID: 11400000, guid: 8a66909728878664eb673322d7cf5b04, type: 2}
+  - {fileID: 11400000, guid: fe735eb04f43de245ae80e771a98928f, type: 2}
   player: {fileID: 0}
+  playerBody: {fileID: 0}

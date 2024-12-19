@@ -10,9 +10,9 @@ public class DrillItem : ItemObject {
     Grid grid;
     Tilemap tilemap;
     Transform target;
-    Transform player;
-    LineRenderer lineRenderer;
-    Singleton singleton;
+    //Transform player;
+    //LineRenderer lineRenderer;
+    //Singleton singleton;
     AudioSource miningSound;
     AudioSource blockBreakSound;
 
@@ -59,9 +59,8 @@ public class DrillItem : ItemObject {
         lineRenderer.startWidth = 0.5f;
         lineRenderer.endWidth = 0.5f;
         lineRenderer.SetPositions(new Vector3[] { new Vector3(player.position.x, player.position.y+1.25f, player.position.z), target.position });
-        if (Mouse.current.leftButton.isPressed) {
-            if (!miningSound.isPlaying)
-                miningSound.Play();
+        if (Mouse.current.leftButton.isPressed && !miningSound.isPlaying) {
+            miningSound.Play();
         } else {
             miningSound.Stop();
         }

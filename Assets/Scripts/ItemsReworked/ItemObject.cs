@@ -10,17 +10,25 @@ public class ItemObject : ScriptableObject
     [SerializeField] string itemName;
     [SerializeField] float cooldown = 0.05f;
     [SerializeField] bool consumable = false;
+    [SerializeField] Sprite icon;
+
+    protected Singleton singleton;
+    protected LineRenderer lineRenderer;
+    protected Transform player;
+
     //[SerializeField] int id;
     //Will be done in later prototype
     //[SerializeField] Sprite itemSprite;
 
     public virtual void SetUp() {
-        //Debug.Log("Setup");
+        player = GameObject.FindWithTag("Player").transform;
+        lineRenderer = player.GetComponentInChildren<LineRenderer>();
+        singleton = GameObject.FindWithTag("Singleton").GetComponent<Singleton>();
     }
 
     // returns true if item was used successfully, false otherwise
     public virtual bool UseItem() {
-        Debug.Log("defaultItem");
+        //Debug.Log("defaultItem");
         return false;
     }
 
@@ -29,7 +37,10 @@ public class ItemObject : ScriptableObject
     }
 
     public virtual void OnSwitch() {
-
+        if (lineRenderer != null && singleton != null) {
+            lineRenderer.SetPositions(new Vector3[] { new Vector3(1000, -1000, 1000), new Vector3(1000, -1000, 1000) });
+            singleton.showGrid(false);
+        }
     }
 
     public string GetName() {
@@ -46,6 +57,10 @@ public class ItemObject : ScriptableObject
 
     public bool IsConsumable() {
         return consumable;
+    }
+
+    public Sprite GetIcon() {
+        return icon;
     }
 
     //So items can be equal to items of same class

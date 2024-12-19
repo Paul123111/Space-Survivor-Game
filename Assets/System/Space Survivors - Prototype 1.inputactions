@@ -175,6 +175,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DebugItem",
+                    "type": "Button",
+                    "id": "c3f962db-414f-46ab-9bed-d0322ad758da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DebugSave",
+                    "type": "Button",
+                    "id": "3b28bd6f-2c0e-48ea-b95e-e46b3e28e445",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PauseAndExitMenu",
+                    "type": "Button",
+                    "id": "78c1366d-4284-46ab-8ef0-a9ef35855889",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -686,8 +713,8 @@
                 },
                 {
                     "name": "",
-                    "id": "9df8ee9f-eb3b-4e0c-b72b-ab29948cc5df",
-                    "path": "<Keyboard>/escape",
+                    "id": "2fa44c25-c027-4003-ae9f-7c29f891f32c",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -697,12 +724,45 @@
                 },
                 {
                     "name": "",
-                    "id": "2fa44c25-c027-4003-ae9f-7c29f891f32c",
-                    "path": "<Keyboard>/z",
+                    "id": "44af6940-593c-46e3-b497-d3502809c596",
+                    "path": "<Keyboard>/period",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "DebugItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ac03123-31d6-4bff-81eb-1c6da932d3bb",
+                    "path": "<Keyboard>/comma",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugSave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bee8eda1-2155-4785-b21f-5df31da5487d",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseAndExitMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aab2764c-2cd2-4418-8d82-866ede34539b",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseAndExitMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

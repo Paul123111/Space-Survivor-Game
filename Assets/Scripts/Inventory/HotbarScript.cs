@@ -10,11 +10,12 @@ public class HotbarScript : MonoBehaviour
 
     [SerializeField] Sprite hotbarSlot;
     [SerializeField] Sprite selected;
+    [SerializeField] PauseGame pauseGame;
 
     Inventory inventory;
 
     Image[] hotbarSlots = new Image[10];
-    int selectedSlot = 1;
+    int selectedSlot = 0;
     bool onCooldown = false;
 
     //inventory is comprised of ints that give the item ID and the num of items in 1 slot
@@ -79,6 +80,8 @@ public class HotbarScript : MonoBehaviour
             if (inventory.GetActiveItem() != null) {
                 lineRenderer.SetPositions(new Vector3[] { transform.position, transform.position });
                 inventory.HoldActiveItem();
+            } else {
+                lineRenderer.SetPositions(new Vector3[] { new Vector3(1000, -1000, 1000), new Vector3(1000, -1000, 1000) });
             }
             yield return new WaitForSeconds(0.02f);
         }
@@ -89,43 +92,43 @@ public class HotbarScript : MonoBehaviour
     }
 
     void OnSlot1() {
-        SlotX(1);
+        SlotX(0);
     }
 
     void OnSlot2() {
-        SlotX(2);
+        SlotX(1);
     }
 
     void OnSlot3() {
-        SlotX(3);
+        SlotX(2);
     }
 
     void OnSlot4() {
-        SlotX(4);
+        SlotX(3);
     }
 
     void OnSlot5() {
-        SlotX(5);
+        SlotX(4);
     }
 
     void OnSlot6() {
-        SlotX(6);
+        SlotX(5);
     }
 
     void OnSlot7() {
-        SlotX(7);
+        SlotX(6);
     }
 
     void OnSlot8() {
-        SlotX(8);
+        SlotX(7);
     }
 
     void OnSlot9() {
-        SlotX(9);
+        SlotX(8);
     }
 
     void OnSlot0() {
-        SlotX(0);
+        SlotX(9);
     }
 
     void SlotX(int x) {
@@ -136,6 +139,10 @@ public class HotbarScript : MonoBehaviour
         inventory.OnSwitch();
         inventory.ChangeHeldItem(x);
         inventory.OnSwitch();
+    }
+
+    public void RefreshSlot() {
+        SlotX(inventory.GetActiveSlot());
     }
 
     void OnCycleInventoryLeft() {

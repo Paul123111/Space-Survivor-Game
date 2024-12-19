@@ -17,7 +17,7 @@ public class RobotSystem : MonoBehaviour
     // Update is called once per frame
     //void Update()
     //{
-        
+
     //}
 
     public void UpdateRobots() {
@@ -26,10 +26,23 @@ public class RobotSystem : MonoBehaviour
                 Destroy(robots[i]);
             }
             RobotItem robotItem = inventory.GetRobot(i);
-            print(robotItem);
+            //print(robotItem);
             if (robotItem != null) {
                 robots[i] = Instantiate(robotItem.GetRobot(), robotSpawns[i]);
             }
         }
+    }
+
+    public string RobotList() {
+        string str = "";
+
+        for (int i = 0; i < 4; i++) {
+            if (inventory.GetRobot(i) != null)
+                str += (str != "") ? ", " + inventory.GetRobot(i).GetEquippedDescription() : inventory.GetRobot(i).GetEquippedDescription();
+        }
+
+        if (str == "") return "None";
+
+        return str;
     }
 }

@@ -15,8 +15,8 @@ public class PlayerStats : MonoBehaviour
     float alpha = 0;
     bool screenFlashBool = false;
 
-    float oxygen;
-    float power;
+    float oxygen = 1f;
+    float power = 100f;
 
     GameSceneManager gameSceneManager;
     Inventory inventory;
@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour
         //oxygen = maxOxygen;
         //power = maxPower;
 
-        LoadStats();
+        //LoadStats();
 
         gameSceneManager = GameObject.FindWithTag("Singleton").GetComponent<GameSceneManager>();
         inventory = GameObject.FindWithTag("ItemManager").GetComponent<Inventory>();
@@ -83,20 +83,20 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void SaveStats() {
-        PlayerPrefs.SetFloat("power", power);
-        PlayerPrefs.SetFloat("oxygen", oxygen);
-    }
+    //public void SaveStats() {
+    //    PlayerPrefs.SetFloat("power", power);
+    //    PlayerPrefs.SetFloat("oxygen", oxygen);
+    //}
 
-    public void MaxStats() {
-        PlayerPrefs.SetFloat("power", maxPower);
-        PlayerPrefs.SetFloat("oxygen", maxOxygen);
-    }
+    //public void MaxStats() {
+    //    PlayerPrefs.SetFloat("power", maxPower);
+    //    PlayerPrefs.SetFloat("oxygen", maxOxygen);
+    //}
 
-    void LoadStats() {
-        power = PlayerPrefs.GetFloat("power");
-        oxygen = PlayerPrefs.GetFloat("oxygen");
-    }
+    //void LoadStats() {
+    //    power = PlayerPrefs.GetFloat("power");
+    //    oxygen = PlayerPrefs.GetFloat("oxygen");
+    //}
 
     public float GetOxygen() {
         return oxygen;

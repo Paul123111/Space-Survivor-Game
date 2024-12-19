@@ -11,19 +11,34 @@ public class DayNightCycle : MonoBehaviour
 
     [SerializeField] float dayTimeLengthSeconds;
     [SerializeField] float nightTimeLengthSeconds;
-
+    
     bool isDay = false;
     float timer = 0f;
     int dayCount = 0;
 
     //[SerializeField] GameObject enemySpawner;
-    [SerializeField] TextMeshProUGUI dayCountText;
-    [SerializeField] TextMeshProUGUI timerText;
+    TextMeshProUGUI dayCountText;
+    TextMeshProUGUI timerText;
+    Singleton singleton;
 
     // Start is called before the first frame update
     void Start()
     {
-        GetTimer();
+        dayCountText = GameObject.Find("DayCount").GetComponent<TextMeshProUGUI>();
+        timerText = GameObject.Find("TimeBeforeCycle").GetComponent<TextMeshProUGUI>();
+
+        
+    }
+
+    public void CheckDay() {
+        StartCoroutine(CheckDayAtStart());
+    }
+
+    IEnumerator CheckDayAtStart() {
+        yield return new WaitForEndOfFrame();
+        print(isDay);
+        if (isDay) SetToDayTime();
+        else SetToNightTime();
     }
 
     // Update is called once per frame
@@ -76,24 +91,55 @@ public class DayNightCycle : MonoBehaviour
         }
     }
 
+    void SetToDayTime() {
+        isDay = true;
+        astronautLight.enabled = false;
+        dayLight.intensity = 1;
+    }
+
+    void SetToNightTime() {
+        isDay = false;
+        astronautLight.enabled = true;
+        dayLight.intensity = 0.2f;
+    }
+
     public bool IsDay() {
         return isDay;
+    }
+
+    public void SetIsDay(bool isDay) {
+        this.isDay = isDay;
     }
 
     public int GetDayCount() {
         return dayCount;
     }
 
-    public void SaveTimer() {
-        PlayerPrefs.SetFloat("timer", timer);
-        PlayerPrefs.SetInt("dayCount", dayCount);
-        PlayerPrefs.SetInt("isDay", isDay ? 1 : 0);
-    }
-
-    void GetTimer() {
-        timer = PlayerPrefs.GetFloat("timer");
-        dayCount = PlayerPrefs.GetInt("dayCount");
-        isDay = PlayerPrefs.GetInt("isDay") != 0 ? true : false;
+    public void SetDayCount(int dayCount) {
+        this.dayCount = dayCount;
         dayCountText.text = ">Days Survived: " + dayCount;
     }
+
+    //public void SaveTimer() {
+    //    PlayerPrefs.SetFloat("timer", timer);
+    //    PlayerPrefs.SetInt("dayCount", dayCount);
+    //    PlayerPrefs.SetInt("isDay", isDay ? 1 : 0);
+    //}
+
+    //void GetTimer() {
+    //    timer = PlayerPrefs.GetFloat("timer");
+    //    dayCount = PlayerPrefs.GetInt("dayCount");
+    //    isDay = PlayerPrefs.GetInt("isDay") != 0 ? true : false;
+    //    dayCountText.text = ">Days Survived: " + dayCount;
+    //}
+
+    public float GetTimer() {
+        return timer;
+    }
+
+    public void SetTimer(float timer) {
+        this.timer = timer;
+
+    }
+
 }

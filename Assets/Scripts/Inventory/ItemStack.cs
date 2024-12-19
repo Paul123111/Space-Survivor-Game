@@ -1,50 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
+
+// V1.0 - reworked to not exist without an item
 public class ItemStack : MonoBehaviour
 {
-    ItemObject item;
-    
+    [SerializeField] ItemObject item; // cannot be null anymore
+    TextMeshProUGUI nameDisplay;
+
     //Item item;
     int amount;
 
+    private void Awake() {
+        amount = 1;
+        nameDisplay = GetComponentInChildren<TextMeshProUGUI>();    
+    }
+
     private void Start() {
-        item = null;
+        item.SetUp();
     }
 
-    public ItemStack() {
-        item = null;
-        amount = 0;
-    }
+    // returns overflow from full stack
+    public int IncreaseStack(int amount) {
+        //print(amount);
+        if (this.amount <= item.GetMaxStack()) {
+            int prevAmount = this.amount;
+            this.amount += amount;
 
-    //return true if item is new
-    public bool UpdateStack(ItemObject item) {
-        if (this.item != null) {
-            if (this.item.Equals(item) && amount < this.item.GetMaxStack()) {
-                amount++;
-                return false;
-            } else if (!this.item.Equals(item)) {
-                this.item = item;
-                amount = 1;
-                return true;
+            if (this.amount > item.GetMaxStack()) {
+                this.amount = item.GetMaxStack();
+                SetName();
+                //print(item.GetMaxStack() - prevAmount);
+                return item.GetMaxStack() - prevAmount;
             }
-        } else {
-            this.item = item;
-            if (item != null) {
-                amount = 1;
-            } else {
-                amount = 0;
-            }
+
+            SetName();
         }
-        return true;
+        return amount;
     }
 
-    public void RemoveItem() {
-        amount--;
-        if (amount <= 0) {
-            amount = 0;
-            item = null;
+    public void DecreaseItem(int amount) {
+        this.amount -= amount;
+        SetName();
+        if (this.amount <= 0) {
+            ClearStack();
         }
     }
 
@@ -52,12 +53,22 @@ public class ItemStack : MonoBehaviour
         return item;
     }
 
+    public void SetItem(ItemObject item) {
+        this.item = item;
+    }
+
     public int GetAmount() {
         return amount;
     }
 
     public void ClearStack() {
-        item = null;
-        amount = 0;
+        //print("deleted item");
+        Destroy(gameObject);
+    }
+
+    public void SetName() {
+        //print(amount + ", " + nameDisplay);
+        if (nameDisplay != null)
+            nameDisplay.text = " x" + amount;
     }
 }

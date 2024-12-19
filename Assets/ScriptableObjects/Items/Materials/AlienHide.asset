@@ -17,3 +17,4 @@ MonoBehaviour:
   itemName: Alien Hide
   cooldown: 0.05
   consumable: 0
+  icon: {fileID: 21300000, guid: bfeda8f843d95704da28205ab83ed4f4, type: 3}

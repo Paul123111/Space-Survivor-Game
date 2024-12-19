@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "armour", menuName = "Item/Armour")]
-public class ArmourItem : ItemObject
+public class ArmourItem : EquippableItem
 {
     [SerializeField] float damageReduction = 0.4f; // 40% damage reduction
     Inventory inventory;

@@ -15,9 +15,11 @@ public class DeathState : EnemyState
 
     [SerializeField] float dropChance = 100f; //out of 100
     [SerializeField] GameObject drop;
+    Singleton singleton;
 
     private void Start() {
         //enemyDeathAudio = GameObject.FindWithTag("EnemyDeathAudio").GetComponent<AudioSource>();
+        singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
     }
 
 
@@ -35,6 +37,8 @@ public class DeathState : EnemyState
             if (Random.Range(0f, 100f) <= dropChance) Instantiate(drop, hurtbox.transform);
             
             enemyDeathAudio.Play();
+
+            singleton.SetKillCount(singleton.GetKillCount() + 1);
         }
         if (info.IsName("Dying")) {
             anim.SetBool("hasDied", true);

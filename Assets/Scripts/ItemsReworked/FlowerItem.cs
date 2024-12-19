@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "flower", menuName = "Item/Flower")]
-public class FlowerItem : ItemObject
+public class FlowerItem : EquippableItem
 {
 
     [SerializeField] float oxygenRate;

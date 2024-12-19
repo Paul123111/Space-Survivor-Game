@@ -17,6 +17,7 @@ MonoBehaviour:
   itemName: Wood
   cooldown: 0.1
   consumable: 1
+  icon: {fileID: 21300000, guid: fe45047cec771ef418bc6006ebe5e8e8, type: 3}
   tile: {fileID: 11400000, guid: 975829bacc2e8c44faca63ca4cef820b, type: 2}
   tileToBePlaced: {fileID: 11400000, guid: 3e663f5d3a731e644b1a075bb31559ff, type: 2}
   tileToBePlacedValid: {fileID: 11400000, guid: d023c4cb30c0cde48912033ce90561c7, type: 2}

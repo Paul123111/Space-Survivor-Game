@@ -61,6 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
   dayNightCycle: {fileID: 2942758239471727072}
+  playerStats: {fileID: 0}
 --- !u!114 &2942758239471727072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +77,5 @@ MonoBehaviour:
   dayLight: {fileID: 0}
   hasDayLight: 1
   astronautLight: {fileID: 0}
-  dayTimeLengthSeconds: 60
-  nightTimeLengthSeconds: 120
-  dayCountText: {fileID: 0}
-  timerText: {fileID: 0}
+  dayTimeLengthSeconds: 30
+  nightTimeLengthSeconds: 30

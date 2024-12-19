@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftingRecipeButton : MonoBehaviour
 {
     CraftingSystem craftingSystem;
     CraftingRecipe craftingRecipe;
-    TextMeshProUGUI recipeDescription;
+
+    [SerializeField] GameObject UICraftingItem;
+    [SerializeField] GameObject equalsSign;
     
 
     // Start is called before the first frame update
     void Start()
     {
         craftingSystem = GameObject.Find("CraftingMenu").GetComponent<CraftingSystem>();
-        recipeDescription = GetComponentInChildren<TextMeshProUGUI>();
         //print(recipeDescription);
     }
 
@@ -30,24 +32,39 @@ public class CraftingRecipeButton : MonoBehaviour
     }
 
     public void ChangeButtonRecipe(CraftingRecipe craftingRecipe) {
+        ClearCraftingRecipeUI();
+
         this.craftingRecipe = craftingRecipe;
         CraftingRecipe.CraftingRequirement[] craftingRequirements = craftingRecipe.GetRequirements();
-        string str = "";
+        ItemObject result = craftingRecipe.GetResult();
+
         for (int i = 0; i < craftingRequirements.Length; i++) {
-            str += craftingRequirements[i].GetAmount();
-            str += "x ";
-            str += craftingRequirements[i].GetItem().GetName();
-
-            if (i < craftingRequirements.Length - 1) str += " + ";
+            GameObject newItem = Instantiate(UICraftingItem, transform);
+            newItem.GetComponent<Image>().sprite = craftingRequirements[i].GetItem().GetIcon();
+            TextMeshProUGUI[] newText = newItem.GetComponentsInChildren<TextMeshProUGUI>();
+            newText[0].text = "x" + craftingRequirements[i].GetAmount();
+            newText[1].text = craftingRequirements[i].GetItem().GetName();
         }
-        str += " = " + craftingRecipe.GetResult().GetName();
+        
+        Instantiate(equalsSign, transform);
 
-        if (recipeDescription != null)
-            recipeDescription.text = str;
+        GameObject newResult = Instantiate(UICraftingItem, transform);
+        newResult.GetComponent<Image>().sprite = result.GetIcon();
+        TextMeshProUGUI[] newResultText = newResult.GetComponentsInChildren<TextMeshProUGUI>();
+        newResultText[0].text = "x1";
+        newResultText[1].text = result.GetName();
+
+
     }
 
     public void RemoveButtonRecipe() {
+        ClearCraftingRecipeUI();
         craftingRecipe = null;
-        recipeDescription.text = "";
+    }
+
+    void ClearCraftingRecipeUI() {
+        for (int i = 0; i < transform.childCount; i++) {
+            Destroy(transform.GetChild(i).gameObject);
+        }
     }
 }
