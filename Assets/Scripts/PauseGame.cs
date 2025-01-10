@@ -16,6 +16,7 @@ public class PauseGame : MonoBehaviour
     Image UIUnrestrictedCursor;
     HotbarScript hotbarScript;
     GameObject pauseScreen;
+    [SerializeField] PlayerStats playerStats;
 
     // Start is called before the first frame update
     void Start() {
@@ -40,15 +41,18 @@ public class PauseGame : MonoBehaviour
     //}
 
     void OnPause() {
+        if (playerStats.IsDead()) return;
         if (!paused && !pauseMenu) fullInventory.SetActive(true);
         TogglePause();
     }
 
     void OnPauseAndExitMenu() {
+        if (playerStats.IsDead()) return;
         TogglePauseAndExitMenu();
     }
 
     public void TogglePause() {
+        if (playerStats.IsDead()) return;
         if (pauseMenu) return;
 
         if (paused) {
@@ -66,6 +70,7 @@ public class PauseGame : MonoBehaviour
     }
 
     public void TogglePauseAndExitMenu() {
+        if (playerStats.IsDead()) return;
         if (paused) return;
             
         if (pauseMenu) {

@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// power bar removed to focus on oxygen bar
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField] float maxOxygen = 100f;
     [SerializeField] float maxPower = 100f;
 
     Image oxygenBar;
-    Image powerBar;
+    //Image powerBar;
 
     Image screenFlash;
     float alpha = 0;
     bool screenFlashBool = false;
 
-    float oxygen = 1f;
+    float oxygen = 100f;
     float power = 100f;
 
+    [SerializeField] Animator anim;
     GameSceneManager gameSceneManager;
     Inventory inventory;
+    [SerializeField] LineRenderer lineRenderer;
+
+    bool dead = false;
 
     // Start is called before the first frame update
     void Start()
     {
         oxygenBar = GameObject.Find("OxygenBar").GetComponent<Image>();
-        powerBar = GameObject.Find("PowerBar").GetComponent<Image>();
+        //powerBar = GameObject.Find("PowerBar").GetComponent<Image>();
         screenFlash = GameObject.Find("ScreenFlash").GetComponent<Image>();
 
         //oxygen = maxOxygen;
@@ -47,12 +52,12 @@ public class PlayerStats : MonoBehaviour
 
     void BarLength() {
         oxygenBar.transform.localScale = new Vector3(oxygen/maxOxygen, 1, 1);
-        powerBar.transform.localScale = new Vector3(power/maxPower, 1, 1);
+        //powerBar.transform.localScale = new Vector3(power/maxPower, 1, 1);
     }
 
     void DepleteStats() {
         if (power > 0) {
-            power -= 0.25f * Time.deltaTime;
+            //power -= 0.25f * Time.deltaTime;
         } else {
             oxygen -= 0.5f*Time.deltaTime;
         }
@@ -61,11 +66,12 @@ public class PlayerStats : MonoBehaviour
             power = 0;
         }
 
+        if (IsDead()) return;
         if (inventory.GetFlower() != null) {
             power += inventory.GetFlower().GetPowerRate() * Time.deltaTime;
-            if (power > 0) {
-                oxygen += inventory.GetFlower().GetOxygenRate() * Time.deltaTime;
-            }
+            //if (power > 0) {
+            oxygen += inventory.GetFlower().GetOxygenRate() * Time.deltaTime;
+            //}
         }
 
         if (power > 100) {
@@ -79,7 +85,29 @@ public class PlayerStats : MonoBehaviour
         if (oxygen <= 0) {
             oxygen = 0;
             //print("Game Over");
-            gameSceneManager.LoadSceneByIndex(2);
+            SetDead(true);
+            //gameSceneManager.LoadSceneByIndex(2);
+            StartCoroutine(GameOver());
+        }
+    }
+
+    IEnumerator GameOver() {
+        yield return new WaitForSeconds(3f);
+        gameSceneManager.LoadSceneByIndex(2);
+    }
+
+    public bool IsDead() {
+        return dead;
+    }
+
+    public void SetDead(bool dead) {
+        this.dead = dead;
+        if (dead) {
+            anim.SetBool("isDead", true);
+            lineRenderer.enabled = false;
+        } else {
+            anim.SetBool("isDead", false);
+            lineRenderer.enabled = true;
         }
     }
 

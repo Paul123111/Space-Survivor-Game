@@ -20,13 +20,14 @@ public class DayNightCycle : MonoBehaviour
     TextMeshProUGUI dayCountText;
     TextMeshProUGUI timerText;
     Singleton singleton;
+    GameSceneManager gameSceneManager;
 
     // Start is called before the first frame update
     void Start()
     {
         dayCountText = GameObject.Find("DayCount").GetComponent<TextMeshProUGUI>();
         timerText = GameObject.Find("TimeBeforeCycle").GetComponent<TextMeshProUGUI>();
-
+        gameSceneManager = GameObject.Find("Singleton").GetComponent<GameSceneManager>();
         
     }
 
@@ -36,7 +37,7 @@ public class DayNightCycle : MonoBehaviour
 
     IEnumerator CheckDayAtStart() {
         yield return new WaitForEndOfFrame();
-        print(isDay);
+        //print(isDay);
         if (isDay) SetToDayTime();
         else SetToNightTime();
     }
@@ -64,6 +65,7 @@ public class DayNightCycle : MonoBehaviour
             StartCoroutine(SwitchToNightTime());
             timer = 0;
             dayCount++;
+            gameSceneManager.Save();
             dayCountText.text = ">Days Survived: " + dayCount;
         } else if (!isDay && timer > nightTimeLengthSeconds) {
             timer = 0;
@@ -74,18 +76,20 @@ public class DayNightCycle : MonoBehaviour
     IEnumerator SwitchToDayTime() {
         //enemySpawner.SetActive(true);
         isDay = true;
-        while (dayLight.intensity < 1 && hasDayLight) {
-            dayLight.intensity += 0.02f;
-            yield return new WaitForSeconds(0.1f);
+        if (gameSceneManager.IsInOverworld()) {
+            while (dayLight.intensity < 0.6f && hasDayLight) {
+                dayLight.intensity += 0.02f;
+                yield return new WaitForSeconds(0.1f);
+            }
+            astronautLight.enabled = false;
         }
-        astronautLight.enabled = false;
     }
 
     IEnumerator SwitchToNightTime() {
         isDay = false;
         //enemySpawner.SetActive(false);
         astronautLight.enabled = true;
-        while (dayLight.intensity > 0.2f && hasDayLight) {
+        while (dayLight.intensity > 0f && hasDayLight) {
             dayLight.intensity -= 0.02f;
             yield return new WaitForSeconds(0.1f);
         }
@@ -93,14 +97,19 @@ public class DayNightCycle : MonoBehaviour
 
     void SetToDayTime() {
         isDay = true;
-        astronautLight.enabled = false;
-        dayLight.intensity = 1;
+        if (gameSceneManager.IsInOverworld()) {
+            astronautLight.enabled = false;
+            dayLight.intensity = 0.6f;
+        } else {
+            astronautLight.enabled = true;
+            dayLight.intensity = 0.0f;
+        }
     }
 
     void SetToNightTime() {
         isDay = false;
         astronautLight.enabled = true;
-        dayLight.intensity = 0.2f;
+        dayLight.intensity = 0.0f;
     }
 
     public bool IsDay() {

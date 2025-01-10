@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 64
-  itemName: BoulderTile
+  itemName: Boulder
   cooldown: 0.1
   consumable: 1
-  icon: {fileID: 21300000, guid: a69c0c38613557b438865d6a24fdff37, type: 3}
+  icon: {fileID: 21300000, guid: d274fffc4672c64418cff18a993cf038, type: 3}
   tile: {fileID: 11400000, guid: 05199c79d9559b64f9d078df27443fb5, type: 2}
   tileToBePlaced: {fileID: 11400000, guid: 3e663f5d3a731e644b1a075bb31559ff, type: 2}
   tileToBePlacedValid: {fileID: 11400000, guid: d023c4cb30c0cde48912033ce90561c7, type: 2}

@@ -17,7 +17,7 @@ MonoBehaviour:
   itemName: Laser Gun
   cooldown: 0.2
   consumable: 0
-  icon: {fileID: 21300000, guid: 07e4866b4e6ad5140a6c7820da48e9d7, type: 3}
+  icon: {fileID: 21300000, guid: 229fe0708f8d238468198fc795e7423e, type: 3}
   laser: {fileID: 5536453301661974971, guid: 0b6474a1ddb4ed44b86d269adc848f6c, type: 3}
   velocity: 40
   accuracy: 0
@@ -27,3 +27,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 38bd9062f454c6d41867862ef28e6de7, type: 3}
   - {fileID: 8300000, guid: f64ba3855d732a34093c4d7b64748783, type: 3}
   - {fileID: 8300000, guid: 38bd9062f454c6d41867862ef28e6de7, type: 3}
+  aimBlocked:
+    serializedVersion: 2
+    m_Bits: 576

@@ -30,6 +30,7 @@ public class EnemyStatsUI : MonoBehaviour
     public float GetHealth() {
         return health;
     }
+
     public void SetHealth(float health) {
         this.health = health;
     }

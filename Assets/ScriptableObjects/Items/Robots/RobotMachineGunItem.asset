@@ -17,6 +17,6 @@ MonoBehaviour:
   itemName: Machinegun Robot
   cooldown: 0.5
   consumable: 0
-  icon: {fileID: 21300000, guid: ba07293873cd01c4bb1511cbc4e80b9f, type: 3}
+  icon: {fileID: 21300000, guid: a4d2d2f7970497944867a81cdc20d1d4, type: 3}
   equippedDescription: Machinegun
   robot: {fileID: 7715358024370701759, guid: 3e1f2d0ff3cfe9e4cb810208f417737c, type: 3}

@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2e9c891dd55441c408c74f9c27e97c99, type: 2}
   - {fileID: 11400000, guid: 05199c79d9559b64f9d078df27443fb5, type: 2}
   groundTiles:
-  - {fileID: 11400000, guid: 8a66909728878664eb673322d7cf5b04, type: 2}
-  - {fileID: 11400000, guid: fe735eb04f43de245ae80e771a98928f, type: 2}
+  - {fileID: 11400000, guid: ee1c932721837e14f8919e18c0a6bc09, type: 2}
+  - {fileID: 11400000, guid: b900e4fb4c71828408ce1ef79ba6d889, type: 2}
   player: {fileID: 0}
   playerBody: {fileID: 0}

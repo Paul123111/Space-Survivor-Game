@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class ShootAtEnemies : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class ShootAtEnemies : MonoBehaviour
     [SerializeField] LayerMask layerMask2;
     [SerializeField] float detectionRadius;
 
+    Inventory inventory;
     Collider[] nearbyEnemies;
 
     // Start is called before the first frame update
     void Start()
     {
+        inventory = GameObject.FindWithTag("ItemManager").GetComponent<Inventory>();
         StartCoroutine(Attack());
     }
 
@@ -41,7 +44,7 @@ public class ShootAtEnemies : MonoBehaviour
             float dist = Vector3.Distance(nearbyEnemies[i].transform.position, transform.position);
             Vector3 direction = (nearbyEnemies[i].transform.position - transform.position).normalized;
             if (nearbyEnemies[i].gameObject.tag == "Enemy" && dist < closestDistance && Physics.Raycast(transform.position, direction * 100, out hit, 100, layerMask2.value)) {
-                Debug.DrawRay(transform.position, direction * hit.distance, Color.red);
+                //Debug.DrawRay(transform.position, direction * hit.distance, Color.red);
                 if (hit.collider.gameObject.tag == "EnemyHurtbox") {
                     //print(hit.collider.gameObject.tag);
                     closestDistance = dist;
@@ -56,9 +59,15 @@ public class ShootAtEnemies : MonoBehaviour
     }
 
     void Shoot(Vector3 enemyPos) {
+        FlowerItem flowerItem = inventory.GetFlower();
+
         for (int i = 0; i < numProjectiles; i++) {
             GameObject projectile = Instantiate(laser, transform.position, Quaternion.Euler(-90, transform.eulerAngles.y, 0));
-            projectile.GetComponent<LaserTrajectory>().SetDamage(damage);
+            if (flowerItem != null)
+                projectile.GetComponent<LaserTrajectory>().SetDamage((int)Mathf.Round(damage * flowerItem.GetDamage()));
+            else {
+                projectile.GetComponent<LaserTrajectory>().SetDamage((int)Mathf.Round(damage));
+            }
             
             Vector3 inaccurateTargetPos = new Vector3(enemyPos.x + (4 * Random.Range(-accuracy, accuracy)), 0, enemyPos.z + (4 * Random.Range(-accuracy, accuracy)));
 
@@ -75,6 +84,10 @@ public class ShootAtEnemies : MonoBehaviour
         for (;;) {
             Collider nearestEnemy = FindClosestEnemy();
             if (nearestEnemy != null) {
+                Vector3 faceEnemy = new Vector3(nearestEnemy.transform.position.x, transform.position.y, nearestEnemy.transform.position.z);
+                Vector3 dir = (-faceEnemy+transform.position).normalized;
+                //print(dir);
+                transform.rotation = Quaternion.LookRotation(dir);
                 Shoot(nearestEnemy.transform.position);
             }
             yield return new WaitForSeconds(cooldown);

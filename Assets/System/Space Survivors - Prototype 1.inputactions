@@ -177,24 +177,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DebugItem",
-                    "type": "Button",
-                    "id": "c3f962db-414f-46ab-9bed-d0322ad758da",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DebugSave",
-                    "type": "Button",
-                    "id": "3b28bd6f-2c0e-48ea-b95e-e46b3e28e445",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "PauseAndExitMenu",
                     "type": "Button",
                     "id": "78c1366d-4284-46ab-8ef0-a9ef35855889",
@@ -719,28 +701,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "44af6940-593c-46e3-b497-d3502809c596",
-                    "path": "<Keyboard>/period",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DebugItem",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8ac03123-31d6-4bff-81eb-1c6da932d3bb",
-                    "path": "<Keyboard>/comma",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "DebugSave",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

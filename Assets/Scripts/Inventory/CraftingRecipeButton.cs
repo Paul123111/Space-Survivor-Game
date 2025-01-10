@@ -11,7 +11,7 @@ public class CraftingRecipeButton : MonoBehaviour
 
     [SerializeField] GameObject UICraftingItem;
     [SerializeField] GameObject equalsSign;
-    
+    [SerializeField] GameObject freeItem;
 
     // Start is called before the first frame update
     void Start()
@@ -40,16 +40,17 @@ public class CraftingRecipeButton : MonoBehaviour
 
         for (int i = 0; i < craftingRequirements.Length; i++) {
             GameObject newItem = Instantiate(UICraftingItem, transform);
-            newItem.GetComponent<Image>().sprite = craftingRequirements[i].GetItem().GetIcon();
+            newItem.GetComponentsInChildren<Image>()[1].sprite = craftingRequirements[i].GetItem().GetIcon();
             TextMeshProUGUI[] newText = newItem.GetComponentsInChildren<TextMeshProUGUI>();
             newText[0].text = "x" + craftingRequirements[i].GetAmount();
             newText[1].text = craftingRequirements[i].GetItem().GetName();
         }
         
-        Instantiate(equalsSign, transform);
+        GameObject equalSign = Instantiate(equalsSign, transform);
+        if (craftingRequirements.Length == 0) {Destroy(equalSign); Instantiate(freeItem, transform); }
 
         GameObject newResult = Instantiate(UICraftingItem, transform);
-        newResult.GetComponent<Image>().sprite = result.GetIcon();
+        newResult.GetComponentsInChildren<Image>()[1].sprite = result.GetIcon();
         TextMeshProUGUI[] newResultText = newResult.GetComponentsInChildren<TextMeshProUGUI>();
         newResultText[0].text = "x1";
         newResultText[1].text = result.GetName();

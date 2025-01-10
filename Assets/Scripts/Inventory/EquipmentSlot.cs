@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,15 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
     [SerializeField] string itemType;
 
     [SerializeField] GameObject UIItem;
+    [SerializeField] GameObject playerModel;
+
+    [SerializeField] int[] materialIndex;
+    [SerializeField] Color defaultColour;
+    Inventory inventory;
+
+    private void Start() {
+        inventory = GameObject.FindWithTag("ItemManager").GetComponent<Inventory>();
+    }
 
     public void OnDrop(PointerEventData eventData) {
         //if (transform.childCount != 0) return;
@@ -54,6 +64,7 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
         } else {
             equipmentStat.text = noEquipmentStr;
         }
+        inventory.UpdateEquipmentAppearance(this); ///
     }
 
     virtual public GameObject NewItem(ItemObject item) {
@@ -82,5 +93,15 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
 
     protected GameObject GetUIItem() {
         return UIItem;
+    }
+
+    public void ChangeMaterial() {
+        Material[] current = playerModel.GetComponent<Renderer>().materials;
+
+        //print(current[0]);
+        for (int i = 0; i < materialIndex.Length; i++) {
+            if (GetItemStack() == null) current[materialIndex[i]].color = defaultColour;
+            else current[materialIndex[i]].color = ((EquippableItem) GetItemStack().GetItem()).GetColour();
+        }
     }
 }

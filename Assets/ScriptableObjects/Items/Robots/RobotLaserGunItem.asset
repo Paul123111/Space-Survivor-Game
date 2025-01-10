@@ -17,6 +17,6 @@ MonoBehaviour:
   itemName: Laser Gun Robot
   cooldown: 0.5
   consumable: 0
-  icon: {fileID: 21300000, guid: ba07293873cd01c4bb1511cbc4e80b9f, type: 3}
+  icon: {fileID: 21300000, guid: 4e4e35ae7577a694d9c7d3fc6848b08a, type: 3}
   equippedDescription: Laser
   robot: {fileID: 3834896465754942872, guid: 38aa3f1ec3e00624f9c768bb036940bf, type: 3}

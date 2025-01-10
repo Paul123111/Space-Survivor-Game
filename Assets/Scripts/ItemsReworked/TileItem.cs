@@ -65,7 +65,7 @@ public class TileItem : ItemObject
     }
 
     public override void OnSwitch() {
-        singleton.showGrid(true);
+        //singleton.showGrid(true);
         Vector3Int tilePos = grid.WorldToCell(new Vector3(target.position.x, 0, target.position.z));
         if (tilemap.GetTile(tilePos) == null || tilemap.GetTile(tilePos) == tileToBePlaced || tilemap.GetTile(tilePos) == tileToBePlacedValid)
             tilemap.SetTile(tilePos, null);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -12,7 +13,7 @@ public class ProceduralGeneration : MonoBehaviour
     [SerializeField] Tilemap ground;
     [SerializeField] Grid grid;
     [SerializeField] RuleTile[] tiles;
-    [SerializeField] Tile[] groundTiles;
+    [SerializeField] RuleTile[] groundTiles;
     //int index1 = 0;
     //int index2 = 0;
     //int index0 = 0;
@@ -34,6 +35,8 @@ public class ProceduralGeneration : MonoBehaviour
     int[,,] caveChunks;
     int[,,] caveSpawnChunks;
 
+    [SerializeField] GameSceneManager gameSceneManager;
+
     private void Start() {
         if (GameObject.Find("Player") != null && GameObject.Find("Singleton") != null) {
             playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
@@ -41,10 +44,10 @@ public class ProceduralGeneration : MonoBehaviour
             singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
         }
 
-        chunks = LoadChunksFile("/Resources/overworldChunks.txt");
-        spawnChunks = LoadChunksFile("/Resources/overworldSpawnChunks.txt");
-        caveChunks = LoadChunksFile("/Resources/caveChunks.txt");
-        caveSpawnChunks = LoadChunksFile("/Resources/caveSpawnChunks.txt");
+        chunks = LoadChunksFile("overworldChunks");
+        spawnChunks = LoadChunksFile("overworldSpawnChunks");
+        caveChunks = LoadChunksFile("caveChunks");
+        caveSpawnChunks = LoadChunksFile("caveSpawnChunks");
     }
 
     void GenerateTile(int x, int z, int tileID) {
@@ -80,7 +83,7 @@ public class ProceduralGeneration : MonoBehaviour
                 tilePos = grid.WorldToCell(new Vector3(j, 0, i));
                 dataToSave += FindTileID((RuleTile)walls.GetTile(tilePos));
 
-                if (ground.GetTile(tilePos).GetType().ToString().Equals("UnityEngine.RuleTile") && FindTileID((RuleTile) ground.GetTile(tilePos)) == 4) dataToSave += "|4,";
+                if (FindTileID((RuleTile) ground.GetTile(tilePos)) == 4) dataToSave += "|4,";
                 else dataToSave += "|11,";
             }
         }
@@ -96,7 +99,7 @@ public class ProceduralGeneration : MonoBehaviour
                 tilePos = grid.WorldToCell(new Vector3(j, 0, i));
                 dataToSave += FindTileID((RuleTile)walls.GetTile(tilePos));
 
-                if (ground.GetTile(tilePos).GetType().ToString().Equals("UnityEngine.RuleTile") && FindTileID((RuleTile)ground.GetTile(tilePos)) == 4) dataToSave += "|4,";
+                if (FindTileID((RuleTile)ground.GetTile(tilePos)) == 4) dataToSave += "|4,";
                 else dataToSave += "|12,";
             }
         }
@@ -116,7 +119,7 @@ public class ProceduralGeneration : MonoBehaviour
 
     public string SavePlayerStats() {
         // oxygen, power, dayTimer, daycount, isDay, blocks broken, enemies slain
-        string[] stats = new string[7];
+        string[] stats = new string[8];
 
         stats[0] = playerStats.GetOxygen().ToString();
         stats[1] = playerStats.GetPower().ToString();
@@ -125,6 +128,7 @@ public class ProceduralGeneration : MonoBehaviour
         stats[4] = dayNightCycle.IsDay() ? "1" : "0";
         stats[5] = singleton.GetScore().ToString();
         stats[6] = singleton.GetKillCount().ToString();
+        stats[7] = gameSceneManager.GetDifficulty().ToString();
 
         string dataToSave = string.Join(",", stats);
         //print(dataToSave);
@@ -132,18 +136,18 @@ public class ProceduralGeneration : MonoBehaviour
     }
 
     public void LoadPlayerPosition(bool inOverworld) {
-        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        string dataRead = File.ReadAllText(Application.persistentDataPath + "/gameData.txt");
         dataRead = dataRead.Split("*")[inOverworld ? 2 : 4];
         string[] posArray = dataRead.Split(",");
 
-        print(dataRead);
+        //print(dataRead);
 
         player.position = new Vector3(float.Parse(posArray[0]), 0, float.Parse(posArray[1]));
         playerBody.position = new Vector3(float.Parse(posArray[0]), 0, float.Parse(posArray[1]));
     }
 
     public void LoadPlayerStats() {
-        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        string dataRead = File.ReadAllText(Application.persistentDataPath + "/gameData.txt");
         dataRead = dataRead.Split("*")[6];
         string[] statsArray = dataRead.Split(",");
 
@@ -154,6 +158,9 @@ public class ProceduralGeneration : MonoBehaviour
         dayNightCycle.SetIsDay(int.Parse(statsArray[4]) == 1);
         singleton.SetScore(int.Parse(statsArray[5]));
         singleton.SetKillCount(int.Parse(statsArray[6]));
+        gameSceneManager.SetDifficulty(int.Parse(statsArray[7]));
+
+        
 
     }
 
@@ -242,7 +249,7 @@ public class ProceduralGeneration : MonoBehaviour
     }
 
     public void LoadNewChunk(int x, int y, int dataIndex) {
-        string chunkString = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        string chunkString = File.ReadAllText(Application.persistentDataPath + "/gameData.txt");
         string[] chunkStrings = chunkString.Split("*")[dataIndex].Split(",");
         string[] tileStrings;
         const int width = 64;
@@ -302,7 +309,7 @@ public class ProceduralGeneration : MonoBehaviour
     }
 
     int[,,] LoadChunksFile(string filename) {
-        string str = File.ReadAllText(Application.dataPath + filename);
+        string str = Resources.Load<TextAsset>(filename).text;
         string[] data = str.Split("*");
         int[,,] array = new int[data.Length, 16, 16];
 
@@ -313,4 +320,31 @@ public class ProceduralGeneration : MonoBehaviour
         
         return array;
     }
+
+    // for main menu
+    public void GenerateFromImage() {
+        Texture2D outlineImage = (Texture2D) Resources.Load("Smiley");
+        //print(outlineImage.name);
+        Color[,] colorOfPixel = new Color[outlineImage.width, outlineImage.height];
+
+        for (int x = 0; x < outlineImage.width; x++) {
+            for (int y = 0; y < outlineImage.height; y++) {
+                colorOfPixel[x, y] = outlineImage.GetPixel(x, y); // check transparancy
+                float r, g, b;
+                r = colorOfPixel[x, y].r;
+                g = colorOfPixel[x, y].g;
+                b = colorOfPixel[x, y].b;
+
+                //if (g > 0.9) print("green");
+                Vector3Int tilePos = grid.WorldToCell(new Vector3(x, 0, y));
+
+                if (colorOfPixel[x, y] == Color.blue) {
+                    walls.SetTile(tilePos, tiles[1]);
+                } else if (colorOfPixel[x, y] == Color.red) {
+                    walls.SetTile(tilePos, tiles[8]);
+                }
+            }
+        }
+    }
+
 }

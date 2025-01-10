@@ -37,6 +37,9 @@ public class WanderingState : EnemyState
     int currentIndex = 1;
     [SerializeField] Transform enemyBody;
 
+    [SerializeField] float despawnTimer; // enemy despawns after too long not seeing player
+    float timing;
+
     // Start is called before the first frame update
     void Start() {
         //agent = GameObject.FindWithTag("Enemy").GetComponent<NavMeshAgent>();
@@ -44,6 +47,8 @@ public class WanderingState : EnemyState
         fieldOfViewCos = Mathf.Cos(fieldOfViewRadians);
         player = GameObject.FindWithTag("Player").transform;
         waypoints = GameObject.FindWithTag("Waypoints").GetComponentsInChildren<Transform>();
+
+        timing = despawnTimer;
     }
 
     public override EnemyState RunCurrentState() {
@@ -51,15 +56,17 @@ public class WanderingState : EnemyState
         info = anim.GetCurrentAnimatorStateInfo(0);
 
         //if (info.IsName("Idle")) {
-            Look();
-            Hear();
-            Smell();
+        Look();
+        Hear();
+        Smell();
+        DespawnTimer();
         //}
 
         //print("Wandering: " + canSeePlayer + ", " + canHearPlayer + ", " + canSmellPlayer + ", " + player.transform.position);
 
         //if player is detected
         if (IsPlayerDetected()) {
+            timing = despawnTimer;
             anim.SetBool("wandering", false);
             playerDetectedUI.SetActive(true);
             return chaseState;
@@ -67,6 +74,14 @@ public class WanderingState : EnemyState
             Wander();
             return this;
         };
+    }
+
+    void DespawnTimer() {
+        timing -= Time.deltaTime;
+        if (timing < 0) {
+            //print(gameObject.transform.root.gameObject);
+            Destroy(gameObject.transform.root.gameObject);
+        }
     }
 
     void StopMoving() {
@@ -134,6 +149,8 @@ public class WanderingState : EnemyState
     }
 
     void Wander() {
+        if (timing < 0) return;
+
         agent.isStopped = false;
         agent.destination = waypoints[currentIndex].position;
         faceTarget.SetLookingAtTarget(false);

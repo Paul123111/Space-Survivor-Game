@@ -19,6 +19,8 @@ public class EnemyHurtbox : MonoBehaviour
     [SerializeField] Animator anim;
     AnimatorStateInfo info;
 
+    [SerializeField] DeathState deathState;
+
     private void Start() {
         //enemyHurtAudio = GameObject.FindWithTag("EnemyHurtAudio").GetComponent<AudioSource>();
     }
@@ -30,6 +32,7 @@ public class EnemyHurtbox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if ((other.gameObject.tag == "PlayerProjectile") && (invincibleTimer <= 0) && !anim.GetBool("isDead") && (other.TryGetComponent<LaserTrajectory>(out LaserTrajectory projectile))) {
+            deathState.GotHitByPlayer();
             Hurt(projectile);
             Destroy(other.gameObject);
         }

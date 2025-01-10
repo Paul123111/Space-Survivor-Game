@@ -13,6 +13,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     Image image;
     ItemStack itemStack;
     Inventory inventory;
+    PauseGame pauseGame;
 
     bool dragActive = false;
 
@@ -20,14 +21,15 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image = GetComponent<Image>();
         itemStack = GetComponent<ItemStack>();
         inventory = GameObject.FindWithTag("ItemManager").GetComponent<Inventory>();
+        pauseGame = GameObject.Find("PlayerBody").GetComponent<PauseGame>();
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
-        if (!Mouse.current.rightButton.isPressed || Mouse.current.leftButton.isPressed) {
+        if (!Mouse.current.rightButton.isPressed && !pauseGame.GetPaused()) {
             dragActive = false;
             return;
         }
-        
+
         //print("begin drag");
 
         dragActive = true;
@@ -50,7 +52,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (parentAfterDrag.childCount != 0) {
             //print("original inventory slot full");
-            parentAfterDrag = inventory.FirstValidSlotObject(itemStack.GetItem()).transform;
+            parentAfterDrag = inventory.FirstEmptySlotObject(itemStack.GetItem()).transform;
         }
 
         transform.SetParent(parentAfterDrag);
@@ -69,8 +71,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public Transform AccountForParentFull() {
         if (parentAfterDrag.childCount != 0) {
-            print("original inventory slot full");
-            parentAfterDrag = inventory.FirstValidSlotObject(itemStack.GetItem()).transform;
+            //print("original inventory slot full");
+            parentAfterDrag = inventory.FirstEmptySlotObject(itemStack.GetItem()).transform;
         }
         return parentAfterDrag;
     }

@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CaveWorld.unity
     guid: d4a7aa09d35c1bb4d94f8fca34431043
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 020387507a8400841ad090b5ebb0d91e
+  - enabled: 1
+    path: Assets/Scenes/TutorialLevel.unity
+    guid: 3394195cbd1ff684883f15b3fbb80d5e
   m_configObjects: {}

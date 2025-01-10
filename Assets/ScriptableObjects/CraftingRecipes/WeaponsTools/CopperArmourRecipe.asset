@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CopperArmourRecipe
   m_EditorClassIdentifier: 
   requirements:
-  - item: {fileID: 11400000, guid: 044b4c0ef196395498d145ea86ecab45, type: 2}
-    amount: 4
-  - item: {fileID: 11400000, guid: 5a8efe0318196a945a6d44748d36c45e, type: 2}
+  - item: {fileID: 11400000, guid: 8550e83e4b79e8f4cb954f8baaa5135d, type: 2}
+    amount: 12
+  - item: {fileID: 11400000, guid: 4453a544e07b1bb4285bc1b9ff513835, type: 2}
     amount: 4
   result: {fileID: 11400000, guid: 7e6aca7e8b519cf469bbf73ab1474938, type: 2}
   tier: 1

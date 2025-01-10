@@ -15,7 +15,6 @@ public class DrillItem : ItemObject {
     //Singleton singleton;
     AudioSource miningSound;
     AudioSource blockBreakSound;
-
     Animator anim;
 
     // Start is called before the first frame update
@@ -50,25 +49,33 @@ public class DrillItem : ItemObject {
             default: return false;
         }
         tilemap.SetTile(tilePos, null);
-        singleton.SetScore(singleton.GetScore()+1);
+
+        if (singleton != null) {
+            //Debug.Log(singleton);
+            singleton.SetScore(singleton.GetScore()+1);
+        }
+
         blockBreakSound.Play();
         return true;
     }
 
     public override void WhileSelected() {
+        if (lineRenderer == null) return;
+
         lineRenderer.startWidth = 0.5f;
-        lineRenderer.endWidth = 0.5f;
+        lineRenderer.endWidth = 0.2f;
         lineRenderer.SetPositions(new Vector3[] { new Vector3(player.position.x, player.position.y+1.25f, player.position.z), target.position });
-        if (Mouse.current.leftButton.isPressed && !miningSound.isPlaying) {
-            miningSound.Play();
-        } else {
+        if (!Mouse.current.leftButton.isPressed /*&& !miningSound.isPlaying*/) {
             miningSound.Stop();
+        } else if (!miningSound.isPlaying) {
+            miningSound.Play();
         }
     }
 
     public override void OnSwitch() {
+        if (lineRenderer == null) return;
         lineRenderer.SetPositions(new Vector3[] { new Vector3(1000, -1000, 1000), new Vector3(1000, -1000, 1000) });
-        singleton.showGrid(true);
+        //singleton.showGrid(true);
     }
 
 }

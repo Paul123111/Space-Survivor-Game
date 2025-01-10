@@ -17,4 +17,4 @@ MonoBehaviour:
   itemName: Laser Drill
   cooldown: 0.05
   consumable: 0
-  icon: {fileID: 21300000, guid: a8b5de9140ecbd14f802b5cc9bfb0568, type: 3}
+  icon: {fileID: 21300000, guid: 38c30dd0d196d5a49a7bc6856e745cd5, type: 3}

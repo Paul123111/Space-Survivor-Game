@@ -15,5 +15,7 @@ MonoBehaviour:
   requirements:
   - item: {fileID: 11400000, guid: 534b10d6bee60bf44a8d875d94168271, type: 2}
     amount: 3
+  - item: {fileID: 11400000, guid: 5a8efe0318196a945a6d44748d36c45e, type: 2}
+    amount: 4
   result: {fileID: 11400000, guid: df918c2fb8641c648b441f9bc8e83185, type: 2}
   tier: 1

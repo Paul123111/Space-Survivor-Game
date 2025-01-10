@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class DeathState : EnemyState
 {
-    [SerializeField] AudioSource enemyDeathAudio;
+    AudioSource enemyDeathAudio;
     [SerializeField] Animator anim;
     AnimatorStateInfo info;
     [SerializeField] NavMeshAgent agent;
@@ -17,9 +17,12 @@ public class DeathState : EnemyState
     [SerializeField] GameObject drop;
     Singleton singleton;
 
+    bool hitByPlayer = false; // can't drop anything if not hit by player
+
     private void Start() {
         //enemyDeathAudio = GameObject.FindWithTag("EnemyDeathAudio").GetComponent<AudioSource>();
         singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
+        enemyDeathAudio = GameObject.FindWithTag("EnemyDeathAudio").GetComponent<AudioSource>();
     }
 
 
@@ -34,16 +37,20 @@ public class DeathState : EnemyState
             hurtbox.enabled = false;
             faceTarget.SetLookingAtTarget(false);
 
-            if (Random.Range(0f, 100f) <= dropChance) Instantiate(drop, hurtbox.transform);
+            if (Random.Range(0f, 100f) <= dropChance && hitByPlayer) Instantiate(drop, hurtbox.transform.position, Quaternion.identity);
             
-            enemyDeathAudio.Play();
+            if (hitByPlayer) enemyDeathAudio.Play();
 
-            singleton.SetKillCount(singleton.GetKillCount() + 1);
+            if (singleton != null) singleton.SetKillCount(singleton.GetKillCount() + 1);
         }
         if (info.IsName("Dying")) {
             anim.SetBool("hasDied", true);
         }
         return this;
+    }
+
+    public void GotHitByPlayer() {
+        hitByPlayer = true;
     }
 
 }

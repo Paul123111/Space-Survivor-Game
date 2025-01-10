@@ -17,4 +17,4 @@ MonoBehaviour:
   itemName: Iron
   cooldown: 0.05
   consumable: 0
-  icon: {fileID: 21300000, guid: 3ed21bd45f81cea4081f7a8b82fedf98, type: 3}
+  icon: {fileID: 21300000, guid: cc98060d7e8b07d43bd7594d15eb640d, type: 3}

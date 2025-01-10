@@ -25,7 +25,8 @@ public class LaserTrajectory : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        Destroy(gameObject, 0.01f);
+        if (gameObject.tag != "EnemyHitbox")
+            Destroy(gameObject, 0.01f);
     }
 
     //private void OnTriggerEnter(Collider other) {

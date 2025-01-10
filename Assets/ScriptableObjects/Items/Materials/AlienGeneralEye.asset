@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 32
-  itemName: Alien General Eye
+  itemName: Alien Eye
   cooldown: 0.05
   consumable: 0
-  icon: {fileID: 21300000, guid: c1bd24f44ed136747a8f65d5a0d461fd, type: 3}
+  icon: {fileID: 21300000, guid: e269e4f6ca5ab314c83f641a39fe7d6a, type: 3}

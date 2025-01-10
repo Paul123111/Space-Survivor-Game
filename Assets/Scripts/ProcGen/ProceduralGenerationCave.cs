@@ -193,7 +193,7 @@ public class ProceduralGenerationCave : MonoBehaviour
     }
 
     public void LoadCaves() {
-        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        string dataRead = File.ReadAllText(Application.persistentDataPath + "/gameData.txt");
         dataRead = dataRead.Split("*")[3];
         string[] tileArray = dataRead.Split(",");
         int counter = 0;
@@ -217,7 +217,7 @@ public class ProceduralGenerationCave : MonoBehaviour
     }
 
     public void LoadPlayerPosition() {
-        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        string dataRead = File.ReadAllText(Application.persistentDataPath + "/gameData.txt");
         dataRead = dataRead.Split("*")[4];
         string[] posArray = dataRead.Split(",");
 

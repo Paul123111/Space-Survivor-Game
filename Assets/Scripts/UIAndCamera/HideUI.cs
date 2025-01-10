@@ -12,7 +12,7 @@ public class HideUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scoreBoard = GameObject.Find("ScoreBoard");
+        scoreBoard = GameObject.Find("Tooltips");
     }
 
     // Update is called once per frame

@@ -180,7 +180,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageNumber: {fileID: 5448578942502589735}
-  lifeTime: 2
+  lifeTime: 1.5
+  range: 2
 --- !u!1 &8658164458510882795
 GameObject:
   m_ObjectHideFlags: 0

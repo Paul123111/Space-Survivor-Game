@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class HotbarScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class HotbarScript : MonoBehaviour
     [SerializeField] Sprite hotbarSlot;
     [SerializeField] Sprite selected;
     [SerializeField] PauseGame pauseGame;
+    [SerializeField] PlayerStats playerStats;
 
     Inventory inventory;
 
@@ -32,9 +34,16 @@ public class HotbarScript : MonoBehaviour
         anim = GameObject.FindWithTag("PlayerModel").GetComponent<Animator>();
 
         //print(hotbar.name);
-        Image[] hotbarSlotsTemp = hotbar.GetComponentsInChildren<Image>();
+        Image[] hotbarSlotsTemp = new Image[10]; ;
+        for (int i = 0; i < hotbar.transform.childCount; ++i) {
+            Transform child = hotbar.transform.GetChild(i);
+
+            //execute functionality of child transform here
+            hotbarSlotsTemp[i] = child.GetComponent<Image>();
+        }
+
         for (int i = 0; i < hotbarSlots.Length; i++) {
-            hotbarSlots[i] = hotbarSlotsTemp[i + 1];
+            hotbarSlots[i] = hotbarSlotsTemp[i];
         }
         hotbarSlots[selectedSlot].sprite = selected;
 
@@ -48,6 +57,7 @@ public class HotbarScript : MonoBehaviour
 
     //Update is called once per frame
     void Update() {
+        if (playerStats.IsDead()) return;
         if (Mouse.current.leftButton.isPressed) {
             if (!onCooldown)
                 StartCoroutine(CheckingForUse());
@@ -58,11 +68,13 @@ public class HotbarScript : MonoBehaviour
     }
 
     IEnumerator InitialSwitch() {
+        if (playerStats.IsDead()) yield break;
         yield return new WaitForSeconds(0.05f);
         inventory.OnSwitch();
     }
 
     IEnumerator CheckingForUse() {
+        if (playerStats.IsDead()) yield break;
         onCooldown = true;
         inventory.useActiveItem();
 
@@ -77,6 +89,7 @@ public class HotbarScript : MonoBehaviour
 
     IEnumerator HeldItemEffect() {
         for (;;) {
+            if (playerStats.IsDead()) yield break;
             if (inventory.GetActiveItem() != null) {
                 lineRenderer.SetPositions(new Vector3[] { transform.position, transform.position });
                 inventory.HoldActiveItem();
@@ -88,6 +101,7 @@ public class HotbarScript : MonoBehaviour
     }
 
     void UseItem() {
+        if (playerStats.IsDead()) return;
         inventory.useActiveItem();
     }
 
@@ -132,6 +146,8 @@ public class HotbarScript : MonoBehaviour
     }
 
     void SlotX(int x) {
+        if (playerStats.IsDead()) return;
+
         hotbarSlots[selectedSlot].sprite = hotbarSlot;
         selectedSlot = x;
         hotbarSlots[selectedSlot].sprite = selected;

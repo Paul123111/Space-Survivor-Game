@@ -37,6 +37,11 @@ public class Inventory : InventoryHolder
 
     TrashSlot trashSlot;
 
+    TextMeshProUGUI activeItemText;
+    TextMeshProUGUI activeItemBackground;
+
+    [SerializeField] bool tutorial = false;
+
     private void Start() {
         GameObject hotbar = GameObject.FindWithTag("Hotbar");
         GameObject fullInventorySlots = GameObject.Find("FullInventorySlots");
@@ -62,10 +67,15 @@ public class Inventory : InventoryHolder
 
         trashSlot = fullInventorySlots.GetComponentInChildren<TrashSlot>();
 
-        //StartCoroutine(FillInventory());
-        ClearInventory();
-        LoadInventory();
-        ChangeHeldItem(0);
+        activeItemText = GameObject.Find("ActiveItemText").GetComponent<TextMeshProUGUI>();
+        activeItemBackground = GameObject.Find("ActiveItemBackground").GetComponent<TextMeshProUGUI>();
+
+        StartCoroutine(FillInventory());
+        //ClearInventory();
+        //if (!tutorial)
+        //    LoadInventory();
+        
+        //ChangeHeldItem(0);
     }
 
     public override IEnumerator FillInventory() {
@@ -78,7 +88,8 @@ public class Inventory : InventoryHolder
         //        //print(PlayerPrefs.GetInt("ItemID" + i%10));
         //    }
         //}
-        LoadInventory();
+        if (!tutorial)
+            LoadInventory();
 
 
         //SetRobots();
@@ -90,13 +101,24 @@ public class Inventory : InventoryHolder
     }
 
     public void ChangeHeldItem(int index) {
+        RemovePlacementTile();
         if (UIInventorySlots[index].GetItemStack() != null && UIInventorySlots[index].GetItemStack().GetAmount() > 0) {
             activeItem = UIInventorySlots[index].GetItemStack().GetItem();
+            activeItemBackground.text = "<mark=#00000099 padding=\"50,50,10,10\">> " + activeItem.GetName() + "</mark>";
+            activeItemText.text = "> " + activeItem.GetName();
         } else {
             activeItem = null;
+            activeItemText.text = "";
+            activeItemBackground.text = "";
         }
         activeSlot = index;
         //print(activeItem.name);
+    }
+
+    void RemovePlacementTile() {
+        //print(GameObject.Find("TileToBePlaced(Clone)"));
+        Destroy(GameObject.Find("TileToBePlaced(Clone)"));
+        Destroy(GameObject.Find("TileToBePlacedValid(Clone)"));
     }
 
     //public void AddItemFromID(int index, ItemObject item) {
@@ -117,7 +139,7 @@ public class Inventory : InventoryHolder
                 //UpdateName(GetActiveSlot());
             }
         } else {
-            print("no item to use");
+            //print("no item to use");
         }
 
         ChangeHeldItem(activeSlot);
@@ -141,8 +163,8 @@ public class Inventory : InventoryHolder
         if (activeItem != null) {
             activeItem.OnSwitch();
         } else {
-            singleton.showGrid(false);
-            miningSound.Stop();
+            //singleton.showGrid(false);
+            //miningSound.Stop();
         }
     }
 
@@ -171,8 +193,27 @@ public class Inventory : InventoryHolder
         return index;
     }
 
+    public int FirstEmptySlotIndex(ItemObject item) {
+        int index = -1;
+
+        for (int i = 0; i < UIInventorySlots.Length; i++) {
+            if (UIInventorySlots[i].GetItemStack() == null) {
+                index = i;
+                break;
+            }
+        }
+
+        return index;
+    }
+
     public GameObject FirstValidSlotObject(ItemObject item) {
         int index = FirstValidSlotIndex(item);
+        //print((index != -1) ? UIInventorySlots[index].gameObject : trashSlot.gameObject);
+        return (index != -1) ? UIInventorySlots[index].gameObject : trashSlot.gameObject;
+    }
+
+    public GameObject FirstEmptySlotObject(ItemObject item) {
+        int index = FirstEmptySlotIndex(item);
         //print((index != -1) ? UIInventorySlots[index].gameObject : trashSlot.gameObject);
         return (index != -1) ? UIInventorySlots[index].gameObject : trashSlot.gameObject;
     }
@@ -198,7 +239,7 @@ public class Inventory : InventoryHolder
         }
 
         if (index == -1) {
-            print("inventory full");
+            //print("inventory full");
             return;
         }
 
@@ -244,14 +285,23 @@ public class Inventory : InventoryHolder
         for (int i = 0; i < numSlots; i++) {
             if (UIInventorySlots[i].GetItemStack() == null) continue;
             if (UIInventorySlots[i].GetItemStack().GetItem().Equals(itemObject) && UIInventorySlots[i].GetItemStack().GetAmount() > 0) {
-                print(i);
+                //print(i);
                 UIInventorySlots[i].GetItemStack().DecreaseItem(1);
                 return true;
             }
         }
 
-        print("item missing");
+        //print("item missing");
         return false;
+    }
+
+    public void UpdateEquipmentAppearance(EquipmentSlot equipmentSlot) {
+        StartCoroutine(UpdateMaterials(equipmentSlot));
+    }
+
+    IEnumerator UpdateMaterials(EquipmentSlot equipmentSlot) {
+        yield return new WaitForEndOfFrame();
+        equipmentSlot.ChangeMaterial();
     }
 
     //public override int NumberOfItemsHeld(ItemObject item) {
@@ -284,7 +334,7 @@ public class Inventory : InventoryHolder
     }
 
     public void RemoveItemFromChosenStack(int slot) {
-        print(slot);
+        //print(slot);
         UIInventorySlots[slot].GetItemStack().DecreaseItem(1);
         UpdateName(slot);
     }
@@ -342,11 +392,11 @@ public class Inventory : InventoryHolder
 
         string dataToSave = string.Join(",", inventoryData);
         return dataToSave;
-        //File.WriteAllText(Application.dataPath + "/gameData.txt", "" + dataToSave);
+        //File.WriteAllText(Application.persistentDataPath + "/gameData.txt", "" + dataToSave);
     }
 
     public void LoadInventory() {
-        string dataRead = File.ReadAllText(Application.dataPath + "/gameData.txt");
+        string dataRead = File.ReadAllText(Application.persistentDataPath + "/gameData.txt");
         dataRead = dataRead.Split("*")[0];
         string[] inventorySlots = dataRead.Split(",");
         int i = 0;
@@ -376,6 +426,7 @@ public class Inventory : InventoryHolder
             i++;
             if (inventorySlots[i] != "-1") {
                 string[] itemStack = inventorySlots[i].Split("|");
+                print(int.Parse(itemStack[0]));
                 robotSlots[j].NewItem(itemList[int.Parse(itemStack[0])]);
             }
         }

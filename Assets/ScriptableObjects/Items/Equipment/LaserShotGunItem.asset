@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 1
-  itemName: LaserShotGun
+  itemName: Laser Shotgun
   cooldown: 0.8
   consumable: 0
-  icon: {fileID: 21300000, guid: 07e4866b4e6ad5140a6c7820da48e9d7, type: 3}
+  icon: {fileID: 21300000, guid: ba7461a4102788c4fb8169cd86701e1b, type: 3}
   laser: {fileID: 5536453301661974971, guid: 0b6474a1ddb4ed44b86d269adc848f6c, type: 3}
   velocity: 30
   accuracy: 0.5
@@ -25,3 +25,6 @@ MonoBehaviour:
   damage: 30
   laserGunAudioClips:
   - {fileID: 8300000, guid: aa841ed8fcbe32c40aab245342df8acb, type: 3}
+  aimBlocked:
+    serializedVersion: 2
+    m_Bits: 576

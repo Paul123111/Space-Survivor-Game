@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f08c35aaeca354ba8a033a4e9bbbdd, type: 3}
+  m_Name: HeavyFilterRecipe
+  m_EditorClassIdentifier: 
+  requirements:
+  - item: {fileID: 11400000, guid: 94bfc6ac23e599346936a9ef51ba1306, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 044b4c0ef196395498d145ea86ecab45, type: 2}
+    amount: 12
+  - item: {fileID: 11400000, guid: 5a8efe0318196a945a6d44748d36c45e, type: 2}
+    amount: 24
+  result: {fileID: 11400000, guid: 2148665084a020c40b293926afb51fd8, type: 2}
+  tier: 0

@@ -39,7 +39,7 @@ public class ItemObject : ScriptableObject
     public virtual void OnSwitch() {
         if (lineRenderer != null && singleton != null) {
             lineRenderer.SetPositions(new Vector3[] { new Vector3(1000, -1000, 1000), new Vector3(1000, -1000, 1000) });
-            singleton.showGrid(false);
+            //singleton.showGrid(false);
         }
     }
 

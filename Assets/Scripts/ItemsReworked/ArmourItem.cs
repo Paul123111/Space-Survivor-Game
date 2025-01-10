@@ -22,4 +22,6 @@ public class ArmourItem : EquippableItem
         return damageReduction;
     }
 
+    
+
 }

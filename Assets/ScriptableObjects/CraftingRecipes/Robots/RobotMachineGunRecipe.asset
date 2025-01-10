@@ -15,6 +15,8 @@ MonoBehaviour:
   requirements:
   - item: {fileID: 11400000, guid: e9573ea4f3d00d0418b84950e96e7b88, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: 5a8efe0318196a945a6d44748d36c45e, type: 2}
+    amount: 32
   - item: {fileID: 11400000, guid: 044b4c0ef196395498d145ea86ecab45, type: 2}
     amount: 1
   result: {fileID: 11400000, guid: b01a256581cb0de49a9e1b89376acbd3, type: 2}

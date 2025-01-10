@@ -10,6 +10,8 @@ public class FlowerItem : EquippableItem
     [SerializeField] float powerRate;
     Inventory inventory;
 
+    [SerializeField] float damage = 1;
+
     public override void SetUp() {
         inventory = GameObject.FindWithTag("ItemManager").GetComponent<Inventory>();
         //Debug.Log(inventory);
@@ -26,5 +28,9 @@ public class FlowerItem : EquippableItem
 
     public float GetPowerRate() {
         return powerRate;
+    }
+
+    public float GetDamage() {
+        return damage;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -52,8 +53,9 @@ public class PlayerMovement : MonoBehaviour
     CraftingSystem craftingSystem;
 
     [SerializeField] PauseGame pauseGame;
+    [SerializeField] TextMeshProUGUI spaceshipText;
 
-    int debugID = 1;
+    //int debugID = 1;
 
     //[SerializeField] Renderer astronautModel;
 
@@ -78,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerStats.IsDead()) return;
+
         FindGroundTile();
 
         playerPosPrev = transform.position;
@@ -108,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if (playerStats.IsDead()) {playerVelocity = new Vector3(0, 0, 0); return; }
+
         if (playerVelocity.magnitude > playerSpeed) {
             playerVelocity = playerVelocity.normalized * playerSpeed;
         }
@@ -173,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnInteract() {
         //print("hi");
+        if (playerStats.IsDead()) return;
         if (pauseGame.GetPaused()) return;
 
         Vector3Int tilePos = grid.WorldToCell(new Vector3(target.position.x, 0, target.position.z));
@@ -184,10 +191,10 @@ public class PlayerMovement : MonoBehaviour
             case "CaveEntrance": StartCoroutine(gameSceneManager.SaveAndLoadScene(4)); break;
             case "CaveExit": StartCoroutine(gameSceneManager.SaveAndLoadScene(1)); break;
             case "Spaceship": {
-                    if (inventory.NumberOfItemsHeld(10) >= 24 && inventory.NumberOfItemsHeld(4) >= 32 && inventory.NumberOfItemsHeld(5) >= 4 && inventory.NumberOfItemsHeld(19) >= 16) {
-                        singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(0);
+                    if (inventory.NumberOfItemsHeld(10) >= 64 && inventory.NumberOfItemsHeld(4) >= 32 && inventory.NumberOfItemsHeld(19) >= 12) {
+                        singleton.GetComponent<GameSceneManager>().LoadSceneByIndex(5);
                     } else {
-                        print("not enough materials"); 
+                        StartCoroutine(NotEnoughMaterials());
                     }
                     break;
                 }
@@ -201,7 +208,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator NotEnoughMaterials() {
+        spaceshipText = GameObject.Find("SpaceshipText").GetComponent<TextMeshProUGUI>();
+        spaceshipText.text = "Not enough materials";
+        yield return new WaitForSeconds(2f);
+        spaceshipText.text = "Need 64*iron, 32*wood, 24*Alien Eyes to repair spaceship";
+    }
+
     private void OnTriggerEnter(Collider other) {
+        if (playerStats.IsDead()) return;
         //print(other.gameObject.tag);
         switch (other.gameObject.tag) {
             case "Pickup": {
@@ -280,10 +295,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Debug only
-    void OnDebugItem() {
-        inventory.AddItemToInventory(debugID % inventory.GetItemList().Length);
-        debugID++;
-    }
+    //void OnDebugItem() {
+    //    if (playerStats.IsDead()) return;
+    //    for (int i = 0; i < 21; i++) {
+    //        inventory.AddItemToInventory(i % inventory.GetItemList().Length);
+    //    }
+    //}
 
     //void OnDebugSave() {
     //    gameSceneManager.Save();

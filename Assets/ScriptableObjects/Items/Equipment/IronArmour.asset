@@ -17,6 +17,7 @@ MonoBehaviour:
   itemName: Iron Armour
   cooldown: 0.5
   consumable: 0
-  icon: {fileID: 21300000, guid: c1bd24f44ed136747a8f65d5a0d461fd, type: 3}
+  icon: {fileID: 21300000, guid: 0901817157d57914684d2b17f9573b7a, type: 3}
   equippedDescription: Reduces damage by 75%
+  colour: {r: 0, g: 0, b: 0, a: 0}
   damageReduction: 0.75

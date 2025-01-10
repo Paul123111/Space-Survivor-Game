@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 4
-  itemName: SpaceFlower
+  itemName: Spaceflower
   cooldown: 0.1
   consumable: 1
-  icon: {fileID: 21300000, guid: ddb72a65831c73c40b4668caf96d904a, type: 3}
+  icon: {fileID: 21300000, guid: eaef90e619b323646a234de1c9a76b06, type: 3}
   tile: {fileID: 11400000, guid: 9f5ced91640427d4d8fd56e9e4112f93, type: 2}
   tileToBePlaced: {fileID: 11400000, guid: 3e663f5d3a731e644b1a075bb31559ff, type: 2}
   tileToBePlacedValid: {fileID: 11400000, guid: d023c4cb30c0cde48912033ce90561c7, type: 2}

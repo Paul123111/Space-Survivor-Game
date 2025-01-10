@@ -38,6 +38,7 @@ TagManager:
   - Spaceship
   - AlienHidePickup
   - AlienEyePickup
+  - EnemySpawned
   layers:
   - Default
   - TransparentFX

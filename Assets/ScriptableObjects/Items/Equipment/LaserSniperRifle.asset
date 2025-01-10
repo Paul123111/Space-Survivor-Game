@@ -14,14 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 1
-  itemName: LaserSniperRifle
+  itemName: Laser Sniper Rifle
   cooldown: 2
   consumable: 0
-  icon: {fileID: 21300000, guid: 07e4866b4e6ad5140a6c7820da48e9d7, type: 3}
-  laser: {fileID: 5536453301661974971, guid: 0b6474a1ddb4ed44b86d269adc848f6c, type: 3}
+  icon: {fileID: 21300000, guid: 70d7ad05e51dfc443a08c2c301be69da, type: 3}
+  laser: {fileID: 5536453301661974971, guid: 737d7a326731bf645a062c2f2038c48a, type: 3}
   velocity: 60
   accuracy: 0
   numProjectiles: 2
   damage: 300
   laserGunAudioClips:
   - {fileID: 8300000, guid: 138067231723c8e4d9ca6bc1ac6cb9cc, type: 3}
+  aimBlocked:
+    serializedVersion: 2
+    m_Bits: 576

@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b37eb088a5cea44a0ff3a46daad240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridVisual: {fileID: 0}
 --- !u!114 &4255549869593540812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +61,7 @@ MonoBehaviour:
   inventory: {fileID: 0}
   dayNightCycle: {fileID: 2942758239471727072}
   playerStats: {fileID: 0}
+  proceduralGeneration: {fileID: 0}
 --- !u!114 &2942758239471727072
 MonoBehaviour:
   m_ObjectHideFlags: 0

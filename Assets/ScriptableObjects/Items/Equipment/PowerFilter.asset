@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStackable: 0
   maxStack: 1
-  itemName: Power Filter
+  itemName: Power Filter Unused
   cooldown: 0.5
   consumable: 0
   icon: {fileID: 21300000, guid: ba07293873cd01c4bb1511cbc4e80b9f, type: 3}
-  equippedDescription: +2 O2/Sec
+  equippedDescription: +2 Power/Sec
   oxygenRate: 0
   powerRate: 2

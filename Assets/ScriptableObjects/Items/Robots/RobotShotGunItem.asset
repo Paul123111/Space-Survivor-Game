@@ -17,6 +17,6 @@ MonoBehaviour:
   itemName: Shotgun Robot
   cooldown: 0.5
   consumable: 0
-  icon: {fileID: 21300000, guid: ba07293873cd01c4bb1511cbc4e80b9f, type: 3}
+  icon: {fileID: 21300000, guid: ec422cfb63f704e48a98b330f4d01d16, type: 3}
   equippedDescription: Shotgun
   robot: {fileID: 708515970238603934, guid: a2fc4e33d6f0c4a4aac488da1e72474d, type: 3}

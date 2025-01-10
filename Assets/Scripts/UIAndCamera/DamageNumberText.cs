@@ -8,9 +8,10 @@ public class DamageNumberText : MonoBehaviour
     [SerializeField] TextMeshProUGUI damageNumber;
     [SerializeField] float lifeTime;
     float alpha = 1f;
+    [SerializeField] float range = 1;
 
     private void Start() {
-        transform.position = new Vector3(transform.position.x + (1 * Random.Range(-1f, 1f)), transform.position.y + (1 * Random.Range(-1f, 1f)), transform.position.z + (1 * Random.Range(-1f, 1f)));
+        transform.position = new Vector3(transform.position.x + (1 * Random.Range(-range, range)), transform.position.y + (1 * Random.Range(-1, 1)), transform.position.z + (1 * Random.Range(-range, range)));
         Destroy(gameObject, lifeTime);
     }
 
